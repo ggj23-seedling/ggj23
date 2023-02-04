@@ -36,8 +36,11 @@ public class PlanetStructureGenerator : MonoBehaviour
 
     private PlanetStructure planetStructure;
 
+    private VertexColorInterpreter vertexColorInterpeter;
+
     private void Awake()
     {
+        vertexColorInterpeter = GetComponent<VertexColorInterpreter>();
         GenerateData();
         if (debugData.activateDebug)
         {
@@ -71,7 +74,15 @@ public class PlanetStructureGenerator : MonoBehaviour
                 {
                     for (int i = 0; i < vertices.Length; i++)
                     {
-                        StructureNode newNode = new StructureNode(transform, vertices[i]);
+                        StructureNode newNode;
+                        if (vertexColorInterpeter != null)
+                        {
+                            newNode = new StructureNode(transform, vertices[i], vertexColorInterpeter.GetNodeModelFromColor);
+                        }
+                        else
+                        {
+                            newNode = new StructureNode(transform, vertices[i], null);
+                        }
 
                         StructureNode duplicatedNode = null;
                         foreach (StructureNode n in nodes)

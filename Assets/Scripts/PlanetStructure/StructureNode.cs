@@ -21,7 +21,8 @@ namespace PlanetStructureTypes
         NodeModel model { get; }
         public List<StructureNode> neighbours;
 
-        public StructureNode(Transform planetTransform, VertexData vertexData)
+        public StructureNode(Transform planetTransform,
+            VertexData vertexData, System.Func<uint, NodeModel> getNodeModelFromColor)
         {
             this.planetTransform = planetTransform;
             this.vertexData = vertexData;
@@ -29,21 +30,15 @@ namespace PlanetStructureTypes
             localPosition = vertexData.position;
             localRotation = Quaternion.FromToRotation(Vector3.up, vertexData.normal);
 
-            model = CreateModel(vertexData);
+            model = getNodeModelFromColor(vertexData.color);
             neighbours = new List<StructureNode>();
         }
 
-        public bool HasSameData (StructureNode other)
+        public bool HasSameData(StructureNode other)
         {
             if (other == null) return false;
             if (this == other) return true;
             return planetTransform.Equals(other.planetTransform) && vertexData.Equals(other.vertexData);
-        }
-
-        static NodeModel CreateModel(VertexData vertexData)
-        {
-            // TODO: parse vertexData to fill the model
-            return new NodeModel();
         }
 
         public void addNeighbour(StructureNode other)

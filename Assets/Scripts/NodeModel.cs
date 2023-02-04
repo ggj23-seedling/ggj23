@@ -26,6 +26,8 @@ public class NodeModel : Listenable<NodeModel>
     int extension; // unused
 
     public bool warZone = false;
+    private bool impassable;
+    public bool CanPass => impassable;
 
     HashSet<NodeModel> neighbors;
     HashSet<NodeModel> links = new();
@@ -37,7 +39,8 @@ public class NodeModel : Listenable<NodeModel>
         int? defense = null,
         int? extraction = null,
         int? extension = null,
-        List<NodeModel> neighbors = null
+        List<NodeModel> neighbors = null,
+        bool impassable = false
     )
     {
         this.resources = resources ?? ModelConfiguration.values.initialResources;
@@ -50,6 +53,7 @@ public class NodeModel : Listenable<NodeModel>
         {
             this.neighbors = new();
         }
+        this.impassable = impassable;
         connected.Add(this);
     }
 
