@@ -3,13 +3,6 @@ using System.Collections.Generic;
 
 public class NodeModel : Listenable<NodeModel>
 {
-    const int defaultResources = 50;
-    const int defaultPopulation = 50;
-    const int defaultAttack = 50;
-    const int defaultDefense = 50;
-    const int defaultExtraction = 50;
-    const int defaultExtension = 50;
-
     int resources;
     int population;
     int attack;
@@ -21,21 +14,21 @@ public class NodeModel : Listenable<NodeModel>
     List<NodeModel> links = new();
 
     public NodeModel(
-        int resources = defaultResources,
-        int population = defaultPopulation,
-        int attack = defaultAttack,
-        int defense = defaultDefense,
-        int extraction = defaultExtraction,
-        int extension = defaultExtension,
+        int? resources = null,
+        int? population = null,
+        int? attack = null,
+        int? defense = null,
+        int? extraction = null,
+        int? extension = null,
         List<NodeModel> neighbors = null
     )
     {
-        this.resources = resources;
-        this.population = population;
-        this.attack = attack;
-        this.defense = defense;
-        this.extraction = extraction;
-        this.extension = extension;
+        this.resources = resources ?? ModelConfiguration.values.initialResources;
+        this.population = population ?? 0;
+        this.attack = attack ?? ModelConfiguration.values.attackValues[0];
+        this.defense = defense ?? ModelConfiguration.values.defenseValues[0];
+        this.extraction = extraction ?? ModelConfiguration.values.extractionValues[0];
+        this.extension = extension ?? ModelConfiguration.values.extensionValues[0];
         if (neighbors == null)
         {
             this.neighbors = new();

@@ -17,6 +17,7 @@ public class ModelTester : MonoBehaviour
 
     void OnMouseDown()
     {
+        FindObjectOfType<ModelConfiguration>().BeReady();
         Debug.Log($"Tapped {gameObject.name}");
         Clock.Instance().NextTurn();
     }
