@@ -9,7 +9,10 @@ public class Listenable<T> where T : Listenable<T>
     
     public void AddListener(Action<T> listener)
     {
-        listeners.Add(listener);
+        if (!listeners.Contains(listener))
+        {
+            listeners.Add(listener);
+        }        
     }
     public void RemoveListener(Action<T> listener)
     {
