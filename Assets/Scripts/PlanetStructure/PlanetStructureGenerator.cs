@@ -44,6 +44,7 @@ public class PlanetStructureGenerator : MonoBehaviour
 
     private void GenerateData()
     {
+        FindObjectOfType<ModelConfiguration>().BeReady();
         planetStructure = new PlanetStructure();
         List<StructureNode> nodes = null;
 
