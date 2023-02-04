@@ -6,13 +6,13 @@ namespace PlanetStructureTypes
 {
     public class PlanetStructure
     {
-        public StructureNode[] nodes { get; }
+        public List<StructureNode> nodes { get; }
 
-        public PlanetStructure(StructureNode[] nodes)
+        public PlanetStructure(List<StructureNode> nodes)
         {
             this.nodes = nodes;
         }
 
-        public PlanetStructure() : this(new StructureNode[0]) {}
+        public PlanetStructure() : this(new List<StructureNode>()) {}
     }
 }

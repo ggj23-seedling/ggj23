@@ -7,8 +7,6 @@ namespace PlanetStructureTypes
 {
     public class StructureNode
     {
-        public int index { get; }
-
         // planet origin in world space
         Transform planetTransform;
 
@@ -17,20 +15,29 @@ namespace PlanetStructureTypes
 
         public Quaternion localRotation { get; }
 
+        private VertexData vertexData;
+
         // position in world space coordinates
         NodeModel model { get; }
         public List<StructureNode> neighbours;
 
-        public StructureNode(int index, Transform planetTransform, VertexData vertexData)
+        public StructureNode(Transform planetTransform, VertexData vertexData)
         {
-            this.index = index;
             this.planetTransform = planetTransform;
+            this.vertexData = vertexData;
 
             localPosition = vertexData.position;
             localRotation = Quaternion.FromToRotation(Vector3.up, vertexData.normal);
 
             model = CreateModel(vertexData);
             neighbours = new List<StructureNode>();
+        }
+
+        public bool HasSameData (StructureNode other)
+        {
+            if (other == null) return false;
+            if (this == other) return true;
+            return planetTransform.Equals(other.planetTransform) && vertexData.Equals(other.vertexData);
         }
 
         static NodeModel CreateModel(VertexData vertexData)

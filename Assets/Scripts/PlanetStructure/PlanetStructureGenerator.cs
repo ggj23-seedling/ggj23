@@ -45,7 +45,7 @@ public class PlanetStructureGenerator : MonoBehaviour
     private void GenerateData()
     {
         planetStructure = new PlanetStructure();
-        StructureNode[] nodes = null;
+        List<StructureNode> nodes = null;
 
         if (planetMesh)
         {
@@ -60,12 +60,41 @@ public class PlanetStructureGenerator : MonoBehaviour
                 if (planetMesh.sharedMesh.subMeshCount > 1) { Debug.LogError("The planet structure mesh contains multiple subMeshes"); return; }
 
                 // Read nodes
-                nodes = new StructureNode[meshDataArray[0].vertexCount];
+                nodes = new List<StructureNode>(meshDataArray[0].vertexCount); // this collapses identical vertices
+                List<StructureNode> allNodes = new List<StructureNode>(meshDataArray[0].vertexCount); // this contains duplicated vertices 
+
                 using (NativeArray<VertexData> vertices = meshDataArray[0].GetVertexData<VertexData>(0))
                 {
                     for (int i = 0; i < vertices.Length; i++)
                     {
-                        nodes[i] = new StructureNode(i, transform, vertices[i]);
+                        StructureNode newNode = new StructureNode(transform, vertices[i]);
+
+                        StructureNode duplicatedNode = null;
+                        foreach (StructureNode n in nodes)
+                        {
+                            if (Mathf.Approximately(Vector3.Distance(n.localPosition, newNode.localPosition), 0f))
+                            {
+                                duplicatedNode = n;
+                                if (!newNode.HasSameData(duplicatedNode))
+                                {
+                                    Debug.LogWarning("Duplicated vertices have different data!");
+                                }
+                                break;
+                            }
+                        }
+
+                        if (duplicatedNode == null)
+                        {
+                            nodes.Add(newNode);
+                            allNodes.Add(newNode);
+                        }
+                        else
+                        {
+                            // in this case, the new node is duplicated. Each node is added only once to the graph (nodes collection),
+                            // but twice to the allNodes collection, because the triangles indexes refer to the duplicated vertices indexes
+                            allNodes.Add(duplicatedNode);                          
+                        }
+
                     }
 
                     // Contains an array of triangles. For each triangle, the 3 vertices indices are specified in sequence.
@@ -73,9 +102,9 @@ public class PlanetStructureGenerator : MonoBehaviour
 
                     for (int i = 0; i < triagles.Length; i += 3)
                     {
-                        nodes[triagles[i]].addNeighbour(nodes[triagles[i + 1]]);
-                        nodes[triagles[i + 1]].addNeighbour(nodes[triagles[i + 2]]);
-                        nodes[triagles[i + 2]].addNeighbour(nodes[triagles[i]]);
+                        allNodes[triagles[i]].addNeighbour(allNodes[triagles[i + 1]]);
+                        allNodes[triagles[i + 1]].addNeighbour(allNodes[triagles[i + 2]]);
+                        allNodes[triagles[i + 2]].addNeighbour(allNodes[triagles[i]]);
                     }
                 }
             }           
@@ -98,7 +127,7 @@ public class PlanetStructureGenerator : MonoBehaviour
                 Destroy(transform.GetChild(i).gameObject);
             }
 
-            for (int i = debugData.nodeMarkerStartIndex; i < Mathf.Min(debugData.nodeMarkerStartIndex + debugData.nodeMarkersCount, planetStructure.nodes.Length); i++)
+            for (int i = debugData.nodeMarkerStartIndex; i < Mathf.Min(debugData.nodeMarkerStartIndex + debugData.nodeMarkersCount, planetStructure.nodes.Count); i++)
             {
                 Transform newObjectTransform = planetMesh.gameObject.transform;
                 GameObject newMarker = Instantiate((GameObject)null, planetMesh.transform);
