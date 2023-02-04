@@ -1,18 +1,44 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
-public class Clock : MonoBehaviour
+public enum Turn
 {
-    // Start is called before the first frame update
-    void Start()
+    Conversation,
+    Player,
+    Enemy,
+}
+
+
+public class Clock : Listenable
+{
+    private static readonly Clock I = new();
+    
+    public static Clock Instance()
     {
-        
+        return I;
+    }
+    
+    private Turn T;
+    
+    public Turn Turn {
+        get => T;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void NextTurn()
     {
-        
-    }
+        switch (T)
+        {
+            case Turn.Conversation:
+                T = Turn.Player;
+                break;
+            case Turn.Player:
+                T = Turn.Enemy;
+                break;
+            case Turn.Enemy:
+                T = Turn.Conversation;
+                break;
+        }
+        NotifyListeners();
+    }    
 }
