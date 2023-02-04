@@ -4,39 +4,39 @@ using System.Collections.Generic;
 
 public enum Turn
 {
-    Conversation,
-    Player,
-    Enemy,
+    conversation,
+    player,
+    enemy,
 }
 
 
-public class Clock : Listenable
+public class Clock : Listenable<Clock>
 {
-    private static readonly Clock I = new();
+    private static readonly Clock instance = new();
     
     public static Clock Instance()
     {
-        return I;
+        return instance;
     }
     
-    private Turn T;
+    private Turn t;
     
-    public Turn Turn {
-        get => T;
+    public Turn turn {
+        get => t;
     }
 
     public void NextTurn()
     {
-        switch (T)
+        switch (t)
         {
-            case Turn.Conversation:
-                T = Turn.Player;
+            case Turn.conversation:
+                t = Turn.player;
                 break;
-            case Turn.Player:
-                T = Turn.Enemy;
+            case Turn.player:
+                t = Turn.enemy;
                 break;
-            case Turn.Enemy:
-                T = Turn.Conversation;
+            case Turn.enemy:
+                t = Turn.conversation;
                 break;
         }
         NotifyListeners();
