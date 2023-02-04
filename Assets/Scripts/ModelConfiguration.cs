@@ -57,6 +57,7 @@ public class ModelConfiguration : MonoBehaviour
     {
         if (values == null)
         {
+            values = new();
             values.initialResources = initialResources;
             values.minResources = minResources;
             values.maxPopulation = maxPopulation;

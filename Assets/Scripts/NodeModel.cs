@@ -12,7 +12,7 @@ public class NodeModel : Listenable<NodeModel>
         set => root = value;
     }
 
-    static HashSet<NodeModel> connected;
+    static readonly HashSet<NodeModel> connected = new();
     public static ISet<NodeModel> Connected
     {
         get => connected;
@@ -69,7 +69,7 @@ public class NodeModel : Listenable<NodeModel>
 
     private bool CanEvolve(int[] values, int from)
     {
-        return E.CanSpend(E.EvolutionCost) && from < values[values.Length - 1];
+        return E.CanSpend(E.EvolutionCost) && from < values[^1];
     }
 
     private int Evolve(int[] values, int from)
