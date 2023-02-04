@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.VersionControl;
 
 public class NodeModel : Listenable<NodeModel>
 {
@@ -26,8 +27,7 @@ public class NodeModel : Listenable<NodeModel>
         int attack = defaultAttack,
         int defense = defaultDefense,
         int extraction = defaultExtraction,
-        int extension = defaultExtension,
-        List<NodeModel> neighbors = null
+        int extension = defaultExtension
     )
     {
         this.resources = resources;
@@ -36,17 +36,24 @@ public class NodeModel : Listenable<NodeModel>
         this.defense = defense;
         this.extraction = extraction;
         this.extension = extension;
-        if (neighbors == null)
-        {
-            this.neighbors = new();
-        }
+        neighbors = new List<NodeModel>();
     }
 
     public void LinkWith(NodeModel other)
     {
+        if (this != other)
         {
             links.Add(other);
             other.links.Add(this);
+        }
+    }
+
+    public void AddNeighbour(NodeModel other)
+    {
+        if (this != other)
+        {
+            neighbors.Add(other);
+            other.neighbors.Add(this);
         }
     }
 }
