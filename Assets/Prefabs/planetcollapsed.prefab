@@ -98,8 +98,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   debugData:
     activateDebug: 0
-    nodeMarkerObject: {fileID: 8127387512706587653, guid: dcd4f01c0bd2a6340a7696e6b8f2fa53,
+    nodeMarkerObject: {fileID: 8127387512706587653, guid: a8903e6f43e2b0242aa005fffc68558e,
       type: 3}
     nodeMarkerStartIndex: 0
     nodeMarkersCount: 1
   planetMesh: {fileID: 1533828058582741287}
+  nodeMarkerObject: {fileID: 8127387512706587653, guid: dcd4f01c0bd2a6340a7696e6b8f2fa53,
+    type: 3}
