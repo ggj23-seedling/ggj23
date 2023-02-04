@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.Versioning;
-using UnityEngine;
 
 public class NodeModel : Listenable<NodeModel>
 {
@@ -179,5 +177,14 @@ public class NodeModel : Listenable<NodeModel>
         }
         NotifyListeners();
         return false;
+    }
+
+    public void AddNeighbour(NodeModel other)
+    {
+        if (this != other)
+        {
+            neighbors.Add(other);
+            other.neighbors.Add(this);
+        }
     }
 }
