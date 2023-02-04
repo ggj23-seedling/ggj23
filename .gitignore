@@ -69,3 +69,9 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# Dirty fix for API change
+# TODO Remove later and unify the Unity setup
+/[Aa]ssets/Fungus/Scripts/Commands/Property/AnimatorProperty.cs
+
+Assets/Fungus/Scripts/Commands/Property/AnimatorProperty.cs
