@@ -31,6 +31,9 @@ public class PlanetStructureGenerator : MonoBehaviour
     [SerializeField]
     private MeshFilter planetMesh;
 
+    [SerializeField]
+    public GameObject nodeMarkerObject;
+
     private PlanetStructure planetStructure;
 
     private void Awake()
@@ -88,6 +91,18 @@ public class PlanetStructureGenerator : MonoBehaviour
                         {
                             nodes.Add(newNode);
                             allNodes.Add(newNode);
+
+                            Transform newObjectTransform = planetMesh.gameObject.transform;
+                            GameObject newMarker = Instantiate(nodeMarkerObject, planetMesh.transform);
+                            newMarker.transform.SetLocalPositionAndRotation(newNode.localPosition, newNode.localRotation);
+                            
+                            Collider c = newMarker.GetComponent<Collider>();
+                            if (c == null)
+                            {
+                                c = newMarker.AddComponent<SphereCollider>();
+                            }
+
+                            c.enabled = false;
                         }
                         else
                         {
@@ -127,7 +142,7 @@ public class PlanetStructureGenerator : MonoBehaviour
             {
                 Destroy(transform.GetChild(i).gameObject);
             }
-
+    
             for (int i = debugData.nodeMarkerStartIndex; i < Mathf.Min(debugData.nodeMarkerStartIndex + debugData.nodeMarkersCount, planetStructure.nodes.Count); i++)
             {
                 Transform newObjectTransform = planetMesh.gameObject.transform;
