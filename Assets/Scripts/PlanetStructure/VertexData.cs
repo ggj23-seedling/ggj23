@@ -8,7 +8,7 @@ namespace PlanetStructureTypes
         public Vector3 position;
         public Vector3 normal;
         public Vector4 tangent;
-        public UInt32 color;
+        public Vector4 color;
         public Vector2 UV0;
 
         public bool Equals (VertexData other)

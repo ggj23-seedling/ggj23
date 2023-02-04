@@ -22,11 +22,11 @@ namespace PlanetStructureTypes
         public List<StructureNode> neighbours;
 
         public StructureNode(Transform planetTransform,
-            VertexData vertexData, System.Func<uint, NodeModel> getNodeModelFromColor)
+            VertexData vertexData, System.Func<Vector4, NodeModel> getNodeModelFromColor)
         {
             this.planetTransform = planetTransform;
             this.vertexData = vertexData;
-
+            
             localPosition = vertexData.position;
             localRotation = Quaternion.FromToRotation(Vector3.up, vertexData.normal);
 
