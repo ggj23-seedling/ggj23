@@ -42,7 +42,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3003139299117278264}
-  m_Mesh: {fileID: 7089161851047020663, guid: 32c83ed2fb786224ea08362c88e8d490, type: 3}
+  m_Mesh: {fileID: 4300000, guid: 9463c91af6c0a504b84accaf24999a44, type: 2}
 --- !u!23 &3651776323078653421
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 5604539269314155553, guid: 32c83ed2fb786224ea08362c88e8d490, type: 3}
+  - {fileID: 2100000, guid: e79bd26cc3d8ebf4597bd8cf1db5ba5e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -118,3 +118,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 247e9f0931cc61a4da713d610e3a2853, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rootColor: {r: 0, g: 0, b: 0, a: 1}
+  seaColor: {r: 0, g: 0, b: 1, a: 1}
+  mountainColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  cityColor: {r: 1, g: 0, b: 0, a: 1}
+  townColor: {r: 0.75, g: 0, b: 0, a: 1}
+  villageColor: {r: 0.5, g: 0, b: 0, a: 1}
+  grassColor: {r: 0, g: 1, b: 0, a: 1}
+  desertColor: {r: 1, g: 1, b: 0, a: 1}
+  populatedAreaResources: 3
+  desertResources: 1
+  mountainsCanBePassed: 0
