@@ -175,7 +175,8 @@ MonoBehaviour:
     y: -340
     width: 1114
     height: 859
-  selectedBlocks: []
+  selectedBlocks:
+  - {fileID: 5782899}
   selectedCommands: []
   variables:
   - {fileID: 5782902}
@@ -621,11 +622,12 @@ MonoBehaviour:
   defenseValues: 020000000400000008000000
   extractionValues: 010000000200000003000000
   extensionValues: 01000000
-  maxLinksForVulnerableNode: 3
   expansionCost: 20
   evolutionCost: 5
   initialHostility: 0
   hostilityThresholds: 03000000070000000a0000000c000000
+  maxLinksForVulnerableNode: 3
+  nativeAttackChance: 000000000a00000014000000320000005a000000
   nativeAttackLevels: 000000000100000003000000060000000a000000
 --- !u!1 &388426412
 GameObject:
