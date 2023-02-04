@@ -143,6 +143,7 @@ GameObject:
   - component: {fileID: 5782902}
   - component: {fileID: 5782901}
   - component: {fileID: 5782900}
+  - component: {fileID: 5782904}
   m_Layer: 0
   m_Name: Flowchart
   m_TagString: Untagged
@@ -166,7 +167,7 @@ MonoBehaviour:
   scrollPos: {x: 0, y: 0}
   variablesScrollPos: {x: 0, y: 0}
   variablesExpanded: 1
-  blockViewHeight: 530
+  blockViewHeight: 280
   zoom: 1
   scrollViewRect:
     serializedVersion: 2
@@ -216,8 +217,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodeRect:
     serializedVersion: 2
-    x: 67
-    y: 70
+    x: 142
+    y: 127
     width: 150
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
@@ -227,6 +228,7 @@ MonoBehaviour:
   description: 
   eventHandler: {fileID: 5782896}
   commandList:
+  - {fileID: 5782904}
   - {fileID: 5782892}
   suppressAllAutoSelections: 0
 --- !u!4 &5782895
@@ -302,8 +304,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodeRect:
     serializedVersion: 2
-    x: 74
-    y: 181
+    x: 142
+    y: 288
     width: 166
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
@@ -329,8 +331,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 5
   indentLevel: 0
-  aggressivity:
-    integerRef: {fileID: 5782902}
+  hostility:
+    integerRef: {fileID: 0}
     integerVal: 0
 --- !u!114 &5782901
 MonoBehaviour:
@@ -376,8 +378,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodeRect:
     serializedVersion: 2
-    x: 351
-    y: 157
+    x: 143
+    y: 205
     width: 151
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
@@ -389,6 +391,21 @@ MonoBehaviour:
   commandList:
   - {fileID: 5782900}
   suppressAllAutoSelections: 0
+--- !u!114 &5782904
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5782890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28afdff1c890ae04390636fe78a936cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemId: 6
+  indentLevel: 0
+  hostility: {fileID: 5782902}
 --- !u!1 &171028277
 GameObject:
   m_ObjectHideFlags: 0
@@ -604,6 +621,12 @@ MonoBehaviour:
   defenseValues: 020000000400000008000000
   extractionValues: 010000000200000003000000
   extensionValues: 01000000
+  maxLinksForVulnerableNode: 3
+  expansionCost: 20
+  evolutionCost: 5
+  initialHostility: 0
+  hostilityThresholds: 03000000070000000a0000000c000000
+  nativeAttackLevels: 000000000100000003000000060000000a000000
 --- !u!1 &388426412
 GameObject:
   m_ObjectHideFlags: 0

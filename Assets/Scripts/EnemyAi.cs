@@ -19,27 +19,59 @@ public class EnemyAi : Listenable<EnemyAi>
         Clock.Instance().AddListener(OnNextTurn);
     }
     
-    const int defaultAggressivity = 50;
+    public int hostility;
+    int nextThresholdIndex = 0;
 
-    int aggressivity = defaultAggressivity;
-
-    public void SetAggressivity(int value)
+    EnemyAi()
     {
-        Debug.Log("Aggressivity changed to " + value);
-        aggressivity = value;
+        this.hostility = ModelConfiguration.values.initialHostility;        
+    }
+    
+    public void Attack()
+    {
+        CheckHostilityThreshold();
+        bool somethingHappened = false;
+        foreach (NodeModel node in NodeModel.Connected)
+        {
+            if (node.IsVulnerable)
+            {
+                if (UnityEngine.Random.Range(0, 100) < ModelConfiguration.values.nativeAttackChance[hostility])
+                {                    
+                    int nativeAttackLevel = ModelConfiguration.values.nativeAttackLevels[hostility];
+                    somethingHappened = somethingHappened || node.SufferAttack(nativeAttackLevel);
+                }
+            }
+        }
+        if (somethingHappened)
+        {
+            UnlinkAllDisconnected();
+            NotifyListeners();
+        }
+    }
+
+    private void CheckHostilityThreshold()
+    {
+        foreach (int threshold in ModelConfiguration.values.hostilityThresholds)
+        {
+            if (threshold == nextThresholdIndex && NodeModel.Connected.Count >= threshold)
+            {
+                nextThresholdIndex++;
+                hostility++;
+                NotifyListeners();
+            }
+        }        
     }
 
     public void OnNextTurn(Clock clock)
     {
-        switch (clock.turn)
+        switch (clock.Turn)
         {
             case Turn.conversation:
                 Debug.Log($"Resuming conversation");
                 Flowchart.BroadcastFungusMessage("conversation");
                 break;         
             case Turn.enemy:
-                bool willAttack = UnityEngine.Random.Range(0, 100) < aggressivity;
-                Debug.Log($"Enemy will {(willAttack ? "attack" : "not attack")}");
+                Attack();
                 Clock.Instance().NextTurn();
                 break;
             default:

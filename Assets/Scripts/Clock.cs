@@ -9,6 +9,7 @@ public enum Turn
     intro,
     conversation,
     player,
+    extraction,
     enemy,
     gameOver,
 }
@@ -26,14 +27,15 @@ public class Clock : Listenable<Clock>
     
     private Turn t = Turn.intro;
     
-    public Turn turn {
+    public Turn Turn {
         get => t;
     }
 
     public void NextTurn()
     {
+        Economy.Instance().BeReady();
         EnemyAi.Instance().BeReady(); // Initializes the AI if needed
-        Turn previousTurn = turn;
+        Turn previousTurn = Turn;
         switch (t)
         {
             case Turn.intro:
@@ -43,6 +45,9 @@ public class Clock : Listenable<Clock>
                 t = Turn.player;
                 break;
             case Turn.player:
+                t = Turn.extraction;
+                break;
+            case Turn.extraction:
                 t = Turn.enemy;
                 break;
             case Turn.enemy:
@@ -52,7 +57,7 @@ public class Clock : Listenable<Clock>
                 t = Turn.intro;
                 break;
         }
-        Debug.Log($"Clock: {previousTurn} -> {turn}");
+        Debug.Log($"Clock: {previousTurn} -> {Turn}");
         NotifyListeners();
     }
 
