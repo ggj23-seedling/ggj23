@@ -29,7 +29,7 @@ public class StructureNodeHandler : MonoBehaviour
     [SerializeField]
     private GameObject activateHighlightCosmeticObject;
 
-    private Collider collider;
+    private Collider nodeCollider;
 
     HighlightState highlightState = HighlightState.NONE;
 
@@ -37,8 +37,8 @@ public class StructureNodeHandler : MonoBehaviour
     {
         RefreshView();
 
-        collider = GetComponent<Collider>();
-        if (collider == null) collider = GetComponentInChildren<Collider>();
+        nodeCollider = GetComponent<Collider>();
+        if (nodeCollider == null) nodeCollider = GetComponentInChildren<Collider>();
     }
 
     public void InitializeNodeData (StructureNode nodeData)
@@ -142,9 +142,9 @@ public class StructureNodeHandler : MonoBehaviour
         activateCosmeticObject.SetActive(highlightState == HighlightState.ACTIVATED);
         activateHighlightCosmeticObject.SetActive(highlightState == HighlightState.ACTIVATED_HIGHLIGHT);
         
-        if (collider != null)
+        if (nodeCollider != null)
         {
-            collider.enabled = (highlightState != HighlightState.NONE);
+            nodeCollider.enabled = (highlightState != HighlightState.NONE);
         }
     }
 }
