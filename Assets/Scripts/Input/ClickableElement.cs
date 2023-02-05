@@ -43,6 +43,21 @@ public class ClickableElement : MonoBehaviour
 
     protected virtual void OnClicked()
     {
-        inputController.NotifyGameObjectClicked(gameObject);
+        if (isBelowMenu())
+        {
+            Debug.Log("OnClicked " + gameObject.name + " but it's below the menu");
+        }
+        else
+        {
+            inputController.NotifyGameObjectClicked(gameObject);
+        }
+        
+    }
+
+    // Very dirty fix :-)
+    public bool isBelowMenu()
+    {        
+        Vector3 screenPoint = Camera.main.WorldToScreenPoint(transform.position);
+        return screenPoint.x > ControlGui.leftEdgeOfMenu;
     }
 }

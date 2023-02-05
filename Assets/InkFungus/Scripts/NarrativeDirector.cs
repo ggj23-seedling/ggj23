@@ -18,6 +18,7 @@ namespace InkFungus
         public SayDialog sayDialog;
         public MenuDialog menuDialog;
         public Color defaultCharacterColor;
+        public string defaultCharacterName; 
 
         [Header("Default Flags")]
         public bool hideQuestions = true;
@@ -423,7 +424,7 @@ namespace InkFungus
                 }
                 else
                 {
-                    sayDialogToUse.SetCharacterName("", defaultCharacterColor);
+                    sayDialogToUse.SetCharacterName(defaultCharacterName, defaultCharacterColor);
                 }
                 sayDialogToUse.SetCharacterImage(portrait);
                 Action nextStep;
