@@ -10,7 +10,7 @@ public class NodeModel : Listenable<NodeModel>
     public static NodeModel Root
     {
         get => root;
-        set => root = value;
+        set { root = value; connected.Add(root); }
     }
 
     static readonly HashSet<NodeModel> connected = new();
@@ -18,7 +18,7 @@ public class NodeModel : Listenable<NodeModel>
     {
         get => connected;
     }
-    public bool IsConnected() { return connected.Contains(this); }
+    public bool IsConnected => connected.Contains(this);
 
     int resources; // resources per extraction
     int population; // natives
@@ -72,10 +72,10 @@ public class NodeModel : Listenable<NodeModel>
         }
     }
 
-    public bool CanExpand(NodeModel other, bool considerEconomy = false)
+    public bool CanExpandTo(NodeModel other, bool considerEconomy = false)
     {
-        return connected.Contains(this) && neighbors.Contains(other) && other.CanPass
-            && (!considerEconomy || E.CanSpend(E.ExpansionCost));
+        return IsConnected && !links.Contains(other) && neighbors.Contains(other) && !other.impassable && 
+            (!considerEconomy || E.CanSpend(E.ExpansionCost));
     }
 
     public void ExpandTo(NodeModel other)

@@ -1,7 +1,6 @@
 using PlanetStructureTypes;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 
 public class PlanetInputController : MonoBehaviour
@@ -69,7 +68,6 @@ public class PlanetInputController : MonoBehaviour
         // qui si setta nodeMenuOpened
 
         bool canOpenMenu = true; // TODO
-        bool canLinkNodes = true; // TODO
 
         if (activeNode != null)
         {
@@ -81,17 +79,22 @@ public class PlanetInputController : MonoBehaviour
                 }
                 else if (activeNodeBehaviour == activeNodeBehaviourType.START_LINK)
                 {
-                    if (canLinkNodes)
+                    NodeModel activeNodeModel = activeNode.nodeData.model;
+                    NodeModel clickedNodeModel = nodeHandler.nodeData.model;                    
+                    if (activeNodeModel.CanExpandTo(clickedNodeModel))
                     {
-                        activeNode.nodeData.model.ExpandTo(nodeHandler.nodeData.model);
+                        activeNodeModel.ExpandTo(nodeHandler.nodeData.model);
                         planetStructureGenerator.spawnLinkObject(activeNode, nodeHandler);
                         // TODO: la grafica deve ascoltare il modello perchè altrimenti si rompe con le logiche interne degli attacchi
                         nodeHandler.SetActivated(true);
+                    } else
+                    {
+                        Debug.Log("Cannot expand to that node");
                     }
                 }
                 else
                 {
-                    UnityEngine.Debug.LogError("Unsupported Operation: there is an active nove with an invalid state");
+                    Debug.LogError("Unsupported Operation: there is an active nove with an invalid state");
                 }
             }            
 
@@ -153,7 +156,7 @@ public class PlanetInputController : MonoBehaviour
             foreach (StructureNode n in centerNode.nodeData.neighbours)
             {
                 StructureNodeHandler h = planetStructureGenerator.getHandler(n);
-                if (h != null && canHintConnection(centerNode.nodeData.model, h.nodeData.model))
+                if (h != null && centerNode.nodeData.model.CanExpandTo(h.nodeData.model))
                 {
                     h.SetHintHighlight(true);
                 }
@@ -170,11 +173,5 @@ public class PlanetInputController : MonoBehaviour
                 }
             }
         }
-    }
-
-    static bool canHintConnection (NodeModel fromModel, NodeModel toModel)
-    {
-        //return fromModel.IsConnected() && fromModel.CanExpand(toModel);
-        return true;
     }
 }
