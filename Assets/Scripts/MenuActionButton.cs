@@ -2,11 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MenuActionButton : MonoBehaviour
 {
     public TMPro.TextMeshProUGUI buttonText;
     public NodeEvolution evolution;
+    public Action callback;
+    public Button button;
 
     private int cost;
     private bool available;
@@ -17,6 +20,15 @@ public class MenuActionButton : MonoBehaviour
     {
         Economy.Instance().BeReady();
         Economy.Instance().AddListener(OnEconomyChanged);
+        button.onClick.AddListener(OnButtonClicked);
+    }
+
+    private void OnButtonClicked()
+    {
+        if (available && !tooExpensive)
+        {
+            callback.Invoke();
+        }
     }
 
     private void OnEconomyChanged(Economy economy)
@@ -45,7 +57,7 @@ public class MenuActionButton : MonoBehaviour
     
     private void Refresh()
     {
-        if (available)
+        if (!available)
         {
             buttonText?.SetText("X");
         }

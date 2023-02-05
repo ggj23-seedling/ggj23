@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -16,6 +17,8 @@ public class ControlGui : MonoBehaviour
     private float resourcesTemporaryValue = 0;
     private int resourcesTargetValue = 0;
     private bool goingUp = true;
+    
+    public static float leftEdgeOfMenu = float.PositiveInfinity;
 
     // Start is called before the first frame update
     void Start()
@@ -83,5 +86,6 @@ public class ControlGui : MonoBehaviour
     public void DisplayMenu(bool display)
     {
         actionMenu?.SetActive(display);
+        leftEdgeOfMenu = display ? 0.6f * Screen.width : float.PositiveInfinity;
     }
 }

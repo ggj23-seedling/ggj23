@@ -1,10 +1,14 @@
 using PlanetStructureTypes;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlanetInputController : MonoBehaviour
 {
+    public ControlGui controlGui;
+    public MenuActionButton[] menu;
+    
     enum activeNodeBehaviourType
     {
         NONE,
@@ -72,16 +76,14 @@ public class PlanetInputController : MonoBehaviour
             Debug.Log("Can't click on nodes: it's not the player's turn");
             return;
         }
-
-        bool canOpenMenu = true; // TODO
-
+        
         if (activeNode != null)
         {
             if (activeNode != nodeHandler)
             {
                 if (activeNodeBehaviour == activeNodeBehaviourType.MENU)
                 {
-                    // close menu
+                    SetUpMenu();
                 }
                 else if (activeNodeBehaviour == activeNodeBehaviourType.START_LINK)
                 {
@@ -99,7 +101,7 @@ public class PlanetInputController : MonoBehaviour
                 }
                 else
                 {
-                    Debug.LogError("Unsupported Operation: there is an active nove with an invalid state");
+                    Debug.LogError("Unsupported Operation: there is an active node with an invalid state");
                 }
             }            
 
@@ -107,20 +109,17 @@ public class PlanetInputController : MonoBehaviour
             activeNode.Highlighted = false;
             setHintHighlightToNeighbours(activeNode, false);
             activeNode = null;
+            SetUpMenu();
         }
         else
         {
             activeNode = nodeHandler;
-            if (canOpenMenu)
-            {
-                activeNodeBehaviour = activeNodeBehaviourType.MENU;
-                // TODO openmenu
-                OnLinkStartRequest(); // TODO remove
-            }
+            activeNodeBehaviour = activeNodeBehaviourType.MENU;
+            SetUpMenu();
         }
     }
 
-    private void OnLinkStartRequest () // TODO attach: attach when the link button is pressed
+    private void OnLinkStartRequest ()
     {        
         if (activeNode != null)
         {
@@ -137,10 +136,7 @@ public class PlanetInputController : MonoBehaviour
                 setHintHighlightToNeighbours(activeNode, false);
                 activeNodeBehaviour = activeNodeBehaviourType.NONE;
                 activeNode = null;
-            }
-
-            // close menu
-
+            }            
         }
         else
         {
@@ -150,6 +146,7 @@ public class PlanetInputController : MonoBehaviour
             activeNodeBehaviour = activeNodeBehaviourType.NONE;
             activeNode = null;
         }
+        SetUpMenu(forceClose: true);
     }
 
     private void setHintHighlightToNeighbours(StructureNodeHandler centerNode, bool hintHighlight)
@@ -176,5 +173,71 @@ public class PlanetInputController : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void SetUpMenu(bool forceClose = false)
+    {
+        if (forceClose || activeNode == null)
+        {
+            controlGui?.DisplayMenu(false);
+        }
+        else
+        {
+            controlGui?.DisplayMenu(true);
+            foreach (MenuActionButton button in menu)
+            {
+                switch (button.evolution)
+                {
+                    case NodeEvolution.none:
+                        button.SetCost(ModelConfiguration.values.expansionCost);
+                        button.SetAvailable(true);
+                        button.callback = OnLinkStartRequest;
+                        break;
+                    case NodeEvolution.attack:
+                        button.SetCost(ModelConfiguration.values.evolutionCost);
+                        button.SetAvailable(activeNode.nodeData.model.CanEvolveAttack);
+                        button.callback = EvolveAttack;
+                        break;
+                    case NodeEvolution.defense:
+                        button.SetCost(ModelConfiguration.values.evolutionCost);
+                        button.SetAvailable(activeNode.nodeData.model.CanEvolveDefense);
+                        button.callback = EvolveDefense;
+                        break;
+                    case NodeEvolution.extraction:
+                        button.SetCost(ModelConfiguration.values.evolutionCost);
+                        button.SetAvailable(activeNode.nodeData.model.CanEvolveExtraction);
+                        button.callback = EvolveExtraction;
+                        break;
+                }
+            }
+        }
+    }
+
+    private void EvolveAttack()
+    {
+        activeNode.nodeData.model.EvolveAttack();        
+        ResetActiveNode();
+        Clock.Instance().NextTurn();
+    }
+
+    private void EvolveDefense()
+    {
+        activeNode.nodeData.model.EvolveDefense();
+        ResetActiveNode();
+        Clock.Instance().NextTurn();
+    }
+
+    private void EvolveExtraction()
+    {
+        activeNode.nodeData.model.EvolveExtraction();
+        ResetActiveNode();
+        Clock.Instance().NextTurn();
+    }
+
+    private void ResetActiveNode()
+    {
+        activeNodeBehaviour = activeNodeBehaviourType.NONE;
+        activeNode = null;
+        SetUpMenu();
     }
 }
