@@ -51,7 +51,7 @@ public class VertexColorInterpreter : MonoBehaviour
         return Mathf.Abs(x - y) < 0.1f;
     }
 
-    private bool LooksLike(Vector4 rgba, Color color)
+    public bool LooksLike(Vector4 rgba, Color color)
     {
         if (AreClose(color.r, rgba.x) &&
             AreClose(color.g, rgba.y) &&
@@ -64,7 +64,12 @@ public class VertexColorInterpreter : MonoBehaviour
 
     public NodeModel GetNodeModelFromColor(Vector4 color)
     {
-        if (LooksLike(color, mountainColor))
+        if (LooksLike(color, rootColor))
+        {
+            // Debug.Log("Mountain detected");
+            return new NodeModel(impassable: !mountainsCanBePassed, resources: desertResources);
+        }
+        else if (LooksLike(color, mountainColor))
         {
             // Debug.Log("Mountain detected");
             return new NodeModel(impassable: !mountainsCanBePassed, resources: desertResources);

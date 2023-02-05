@@ -8,11 +8,14 @@ namespace PlanetStructureTypes
     {
         public List<StructureNode> nodes { get; }
 
-        public PlanetStructure(List<StructureNode> nodes)
+        public StructureNode root { get; }
+
+        public PlanetStructure(List<StructureNode> nodes, StructureNode root)
         {
             this.nodes = nodes;
+            this.root = root;
         }
 
-        public PlanetStructure() : this(new List<StructureNode>()) {}
+        public PlanetStructure() : this(new List<StructureNode>(), null) {}
     }
 }

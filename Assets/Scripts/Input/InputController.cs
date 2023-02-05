@@ -4,24 +4,23 @@ using UnityEditorInternal;
 using UnityEngine;
 
 public delegate void OnGameObjectClickedDelegate(GameObject gameObject);
-public delegate void OnGameObjectPairClickedDelegate(GameObject firstGameObject, GameObject secondGameObject);
 
-public class InputController
+public class InputController : MonoBehaviour
 {
-    private static InputController _instance;
-    public static InputController instance
-    {
-        get 
-        { 
-            if (_instance == null)
-            {
-                _instance = new InputController();
-            }
-            return _instance;
-        }
-    }
+    //private static InputController _instance;
+    //public static InputController instance { get { return _instance; } }
 
+    //private void Awake()
+    //{
+    //    _instance = new InputController();
+    //}
+    
+    //private void OnDestroy()
+    //{
+    //    _instance = null;
+    //}
+    //
     public event OnGameObjectClickedDelegate OnGameObjectClicked;
 
-    public void NotifyGameObjectClicked(GameObject gameObject) { instance.OnGameObjectClicked(gameObject); }
+    public void NotifyGameObjectClicked(GameObject gameObject) { OnGameObjectClicked(gameObject); }
 }

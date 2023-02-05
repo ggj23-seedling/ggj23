@@ -63,6 +63,11 @@ public class NodeModel : Listenable<NodeModel>
         other.links.Add(this);
     }
 
+    public bool CanExpand(NodeModel other)
+    {
+        return neighbors.Contains(other) && other.CanPass;
+    }
+
     public void ExpandTo(NodeModel other)
     {
         LinkWith(other);

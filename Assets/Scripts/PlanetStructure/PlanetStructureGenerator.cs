@@ -11,6 +11,7 @@ using System.ComponentModel;
 using System.Transactions;
 using System;
 using Unity.Collections.LowLevel.Unsafe;
+using UnityEditor.SceneManagement;
 
 public class PlanetStructureGenerator : MonoBehaviour
 {
@@ -59,6 +60,7 @@ public class PlanetStructureGenerator : MonoBehaviour
         planetStructure = new PlanetStructure();
         nodeHandlers = new Dictionary<StructureNode, StructureNodeHandler>();
         List<StructureNode> nodes = null;
+        StructureNode rootNode = null;
 
         if (planetMesh)
         {
@@ -129,13 +131,16 @@ public class PlanetStructureGenerator : MonoBehaviour
                             nodeHandler.InitializeNodeData(newNode);
                             nodeHandlers.Add(newNode, nodeHandler);
 
-                            c.enabled = true;
+                            if (newNode.model == NodeModel.Root)
+                            {
+                                rootNode = newNode;
+                            }
                         }
                         else
                         {
                             // in this case, the new node is duplicated. Each node is added only once to the graph (nodes collection),
                             // but twice to the allNodes collection, because the triangles indexes refer to the duplicated vertices indexes
-                            allNodes.Add(duplicatedNode);                          
+                            allNodes.Add(duplicatedNode);
                         }
 
                     }
@@ -155,7 +160,19 @@ public class PlanetStructureGenerator : MonoBehaviour
 
         if (nodes != null && nodeHandlers != null)
         {
-            planetStructure = new PlanetStructure(nodes);
+            if (rootNode == null)
+            {
+                Debug.LogError("Root node not found. The first node will be reinitialized as root. ");
+                if (nodeHandlers.Count > 0)
+                {
+                    rootNode = nodes[0];
+                    Debug.LogError("Forced root node: '" + nodeHandlers[rootNode].gameObject.name + "'");
+                    NodeModel.Root = rootNode.model;
+                    nodeHandlers[rootNode].InitializeNodeData(rootNode);
+                }
+            }
+
+            planetStructure = new PlanetStructure(nodes, rootNode);
         }
     }
 
@@ -194,5 +211,10 @@ public class PlanetStructureGenerator : MonoBehaviour
         newObject.transform.SetPositionAndRotation(newObject.transform.position, globalRotation);
 
         newObject.transform.localScale = getPlanetInverseScaleFactor();
+    }
+
+    public StructureNodeHandler getHandler (StructureNode n)
+    {
+        return nodeHandlers[n];
     }
 }

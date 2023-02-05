@@ -17,7 +17,6 @@ namespace PlanetStructureTypes
 
         public Vector3 normalDirection { get { return vertexData.normal; } }
 
-
         private VertexData vertexData;
 
         // position in world space coordinates

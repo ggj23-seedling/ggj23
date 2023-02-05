@@ -6,8 +6,11 @@ public class ClickableElement : MonoBehaviour
 {
     private bool bPressed = false;
 
+    InputController inputController = null;
+
     protected virtual void Awake ()
     {
+        inputController = FindObjectOfType<InputController>();
         bPressed = false;
     }
 
@@ -40,6 +43,6 @@ public class ClickableElement : MonoBehaviour
 
     protected virtual void OnClicked()
     {
-        InputController.instance.NotifyGameObjectClicked(gameObject);
+        inputController.NotifyGameObjectClicked(gameObject);
     }
 }
