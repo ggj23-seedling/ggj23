@@ -85,6 +85,7 @@ public class PlanetInputController : MonoBehaviour
                     {
                         activeNode.nodeData.model.ExpandTo(nodeHandler.nodeData.model);
                         planetStructureGenerator.spawnLinkObject(activeNode, nodeHandler);
+                        // TODO: la grafica deve ascoltare il modello perchè altrimenti si rompe con le logiche interne degli attacchi
                         nodeHandler.SetActivated(true);
                     }
                 }
