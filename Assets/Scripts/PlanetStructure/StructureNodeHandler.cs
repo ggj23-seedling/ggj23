@@ -8,11 +8,11 @@ public class StructureNodeHandler : MonoBehaviour
 {
     enum HighlightState
     {
-        NONE,
-        HINT,
-        HIGHLIGHT,
-        ACTIVATED,
-        ACTIVATED_HIGHLIGHT
+        NONE, // niente
+        HINT, // fase di collegamento, nodo destinazione suggerito
+        HIGHLIGHT, // fase di collegamento, nodo di partenza confermato
+        ACTIVATED, // collegato alla root
+        ACTIVATED_HIGHLIGHT // collegato alla root, in fase di collegamento, come nodo di partenza
     }
 
     private StructureNode _nodeData = null;
@@ -52,6 +52,10 @@ public class StructureNodeHandler : MonoBehaviour
         if (nodeData.model == NodeModel.Root)
         {
             highlightState = HighlightState.ACTIVATED;
+        }
+        else
+        {
+            highlightState = HighlightState.NONE;
         }
 
         RefreshView();
