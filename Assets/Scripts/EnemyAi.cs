@@ -44,7 +44,6 @@ public class EnemyAi : Listenable<EnemyAi>
         }
         if (somethingHappened)
         {
-            NodeModel.UnlinkAllDisconnected();
             NotifyListeners();
         }
     }

@@ -492,7 +492,7 @@ Transform:
   m_GameObject: {fileID: 8127387512706587653}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 111619441818943843}
@@ -512,7 +512,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseCosmeticObject: {fileID: 5037733728881704890}
-  hintHighlightCosmeticObject: {fileID: 5037733728881704890}
+  hintHighlightCosmeticObject: {fileID: 7041308127808955331}
   highlightCosmeticObject: {fileID: 652242370773086392}
   activateCosmeticObject: {fileID: 3310743247856162145}
   activateHighlightCosmeticObject: {fileID: 1628590976565120565}

@@ -24,6 +24,9 @@ public class PlanetStructureGenerator : MonoBehaviour
         public int nodeMarkerStartIndex;
         [Min(1)]
         public int nodeMarkersCount;
+
+        [Min(0)]
+        public int nodeMarkerRootIndex;
     }
 
     [SerializeField]
@@ -163,9 +166,10 @@ public class PlanetStructureGenerator : MonoBehaviour
             if (rootNode == null)
             {
                 Debug.LogError("Root node not found. The first node will be reinitialized as root. ");
-                if (nodeHandlers.Count > 0)
+                int fallbackRootNodeIndex = nodeHandlers.Count > debugData.nodeMarkerRootIndex ? debugData.nodeMarkerRootIndex : (nodeHandlers.Count > 0 ? 0 : -1);
+                if (fallbackRootNodeIndex >= 0)
                 {
-                    rootNode = nodes[0];
+                    rootNode = nodes[fallbackRootNodeIndex];
                     Debug.LogError("Forced root node: '" + nodeHandlers[rootNode].gameObject.name + "'");
                     NodeModel.Root = rootNode.model;
                     nodeHandlers[rootNode].InitializeNodeData(rootNode);

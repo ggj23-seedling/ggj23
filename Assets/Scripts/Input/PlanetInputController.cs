@@ -1,6 +1,7 @@
 using PlanetStructureTypes;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 public class PlanetInputController : MonoBehaviour
@@ -72,28 +73,31 @@ public class PlanetInputController : MonoBehaviour
 
         if (activeNode != null)
         {
-            if (activeNodeBehaviour == activeNodeBehaviourType.MENU)
+            if (activeNode != nodeHandler)
             {
-                // close menu
-            }
-            else if (activeNodeBehaviour == activeNodeBehaviourType.START_LINK)
-            {
-                if (canLinkNodes)
+                if (activeNodeBehaviour == activeNodeBehaviourType.MENU)
                 {
-                    activeNode.nodeData.model.ExpandTo(nodeHandler.nodeData.model);
-                    planetStructureGenerator.spawnLinkObject(activeNode, nodeHandler);
-                    nodeHandler.SetActivated(true);
+                    // close menu
                 }
-            }
-            else
-            {
-                Debug.LogError("Unsupported Operation: there is an active nove with an invalid state");
-            }
+                else if (activeNodeBehaviour == activeNodeBehaviourType.START_LINK)
+                {
+                    if (canLinkNodes)
+                    {
+                        activeNode.nodeData.model.ExpandTo(nodeHandler.nodeData.model);
+                        planetStructureGenerator.spawnLinkObject(activeNode, nodeHandler);
+                        nodeHandler.SetActivated(true);
+                    }
+                }
+                else
+                {
+                    UnityEngine.Debug.LogError("Unsupported Operation: there is an active nove with an invalid state");
+                }
+            }            
 
-            activeNode = null;
             activeNodeBehaviour = activeNodeBehaviourType.NONE;
             activeNode.SetHighlight(false);
             setHintHighlightToNeighbours(activeNode, false);
+            activeNode = null;
         }
         else
         {
@@ -121,11 +125,11 @@ public class PlanetInputController : MonoBehaviour
             }
             else
             {
-                Debug.LogError("A link has start has been requested to an invalid node.");
-                activeNode = null;
+                UnityEngine.Debug.LogError("A link has start has been requested to an invalid node.");
                 activeNode.SetHighlight(false);
                 setHintHighlightToNeighbours(activeNode, false);
                 activeNodeBehaviour = activeNodeBehaviourType.NONE;
+                activeNode = null;
             }
 
             // close menu
@@ -133,23 +137,43 @@ public class PlanetInputController : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("A link has been started without an active node.");
-            activeNode = null;
+            UnityEngine.Debug.LogWarning("A link has been started without an active node.");
             activeNode.SetHighlight(false);
             setHintHighlightToNeighbours(activeNode, false);
             activeNodeBehaviour = activeNodeBehaviourType.NONE;
+            activeNode = null;
         }
     }
 
     private void setHintHighlightToNeighbours(StructureNodeHandler centerNode, bool hintHighlight)
     {
-        foreach (StructureNode n in centerNode.nodeData.neighbours)
+        if (hintHighlight == true)
         {
-            StructureNodeHandler h = planetStructureGenerator.getHandler(n);
-            if (h != null)
+            foreach (StructureNode n in centerNode.nodeData.neighbours)
             {
-                h.SetHintHighlight(hintHighlight);
+                StructureNodeHandler h = planetStructureGenerator.getHandler(n);
+                if (h != null && canHintConnection(centerNode.nodeData.model, h.nodeData.model))
+                {
+                    h.SetHintHighlight(true);
+                }
             }
         }
+        else
+        {
+            foreach (StructureNode n in centerNode.nodeData.neighbours)
+            {
+                StructureNodeHandler h = planetStructureGenerator.getHandler(n);
+                if (h != null)
+                {
+                    h.SetHintHighlight(false);
+                }
+            }
+        }
+    }
+
+    static bool canHintConnection (NodeModel fromModel, NodeModel toModel)
+    {
+        //return fromModel.IsConnected() && fromModel.CanExpand(toModel);
+        return true;
     }
 }

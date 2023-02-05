@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 public class NodeModel : Listenable<NodeModel>
@@ -17,6 +18,7 @@ public class NodeModel : Listenable<NodeModel>
     {
         get => connected;
     }
+    public bool IsConnected() { return connected.Contains(this); }
 
     int resources; // resources per extraction
     int population; // natives
@@ -54,24 +56,39 @@ public class NodeModel : Listenable<NodeModel>
             this.neighbors = new();
         }
         this.impassable = impassable;
-        connected.Add(this);
     }
 
     public void LinkWith(NodeModel other)
     {
-        links.Add(other);
-        other.links.Add(this);
+        if (connected.Contains(this))
+        {
+            links.Add(other);
+            other.links.Add(this);
+            connected.Add(other);
+        }
+        else
+        { 
+            UnityEngine.Debug.LogError("Logic Error: cannot link from a node that is not connected to the root.");
+        }
     }
 
-    public bool CanExpand(NodeModel other)
+    public bool CanExpand(NodeModel other, bool considerEconomy = false)
     {
-        return neighbors.Contains(other) && other.CanPass;
+        return connected.Contains(this) && neighbors.Contains(other) && other.CanPass
+            && (!considerEconomy || E.CanSpend(E.ExpansionCost));
     }
 
     public void ExpandTo(NodeModel other)
     {
-        LinkWith(other);
-        E.Spend(E.ExpansionCost);
+        if (connected.Contains(this))
+        {
+            LinkWith(other);
+            E.Spend(E.ExpansionCost);
+        }
+        else
+        {
+            UnityEngine.Debug.LogError("Logic Error: cannot expand from a node that is not connected to the root.");
+        }
     }
 
     private Economy E => Economy.Instance();
@@ -91,7 +108,7 @@ public class NodeModel : Listenable<NodeModel>
                 return value;
             }
         }
-        Debug.LogWarning("Check CanEvolve() before calling Evolve()");
+        UnityEngine.Debug.LogWarning("Check CanEvolve() before calling Evolve()");
         return from;
     }
     public bool CanEvolveDefense => CanEvolve(ModelConfiguration.values.defenseValues, defense);
@@ -125,39 +142,55 @@ public class NodeModel : Listenable<NodeModel>
         NotifyListeners();
     }
 
-    public void Unlink()
+    public void Unlink() // TODO: bisogna staccare anche tutti i nodi a valle?
     {
-        Debug.Log($"Unlinking a node with {links.Count} links");
-        foreach (NodeModel link in links)
-        {
-            link.links.Remove(this);
-        }
-        links.Clear();
-        connected.Remove(this);
+        UnlinkSingleNode(this);
+        UnlinkAllDisconnected();
         NotifyListeners();
     }
 
-    public static void UnlinkAllDisconnected()
+    private static void UnlinkSingleNode (NodeModel node)
+    {
+        UnityEngine.Debug.Log($"Unlinking a node with {node.links.Count} links");
+        foreach (NodeModel link in node.links)
+        {
+            link.links.Remove(node);
+        }
+        node.links.Clear();
+        connected.Remove(node);
+    }
+
+    private static void UnlinkAllDisconnected()
     {
         List<NodeModel> verified = new();
         List<NodeModel> toVerify = new() { Root };
-        while (verified.Count < toVerify.Count)
+
+        //traverse all the graph starting from root
+        while (toVerify.Count > 0)
         {
-            NodeModel nextNode = toVerify[verified.Count];
+            // traverse in the current node
+            NodeModel nextNode = toVerify[toVerify.Count - 1];
+            toVerify.RemoveAt(toVerify.Count - 1);
             verified.Add(nextNode);
+
+            // Mark its links as nodes to traverse
             foreach (NodeModel frontier in nextNode.links)
             {
-                if (!toVerify.Contains(frontier))
+                if (!toVerify.Contains(frontier) && !verified.Contains(frontier))
                 {
                     toVerify.Add(frontier);
                 }
             }
         }
+
+        // Unlink all the connected nodes that have not been traversed,
+        // because they are actually unlinked
         foreach (NodeModel node in connected)
         {
             if (!verified.Contains(node))
             {
-                node.Unlink();
+                UnlinkSingleNode(node);
+                node.NotifyListeners();
             }
         }
     }

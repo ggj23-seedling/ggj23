@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3651776323078653421}
   - component: {fileID: 2183475097174210593}
   - component: {fileID: 4200121764300103216}
+  - component: {fileID: 8806765359970661607}
   m_Layer: 0
   m_Name: planetcollapsed
   m_TagString: Untagged
@@ -103,8 +104,11 @@ MonoBehaviour:
       type: 3}
     nodeMarkerStartIndex: 0
     nodeMarkersCount: 1
+    nodeMarkerRootIndex: 1
   planetMesh: {fileID: 1533828058582741287}
   nodeMarkerObject: {fileID: 8127387512706587653, guid: dcd4f01c0bd2a6340a7696e6b8f2fa53,
+    type: 3}
+  linkObject: {fileID: 6708386801254360165, guid: cd9eb603f74af304cb035416070532b0,
     type: 3}
 --- !u!114 &4200121764300103216
 MonoBehaviour:
@@ -129,3 +133,15 @@ MonoBehaviour:
   populatedAreaResources: 3
   desertResources: 1
   mountainsCanBePassed: 0
+--- !u!114 &8806765359970661607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3003139299117278264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e800e8fa3f9a4c43b91e490930fc37f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

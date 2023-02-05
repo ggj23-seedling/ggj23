@@ -29,11 +29,16 @@ public class StructureNodeHandler : MonoBehaviour
     [SerializeField]
     private GameObject activateHighlightCosmeticObject;
 
+    private Collider collider;
+
     HighlightState highlightState = HighlightState.NONE;
 
     private void Awake()
     {
         RefreshView();
+
+        collider = GetComponent<Collider>();
+        if (collider == null) collider = GetComponentInChildren<Collider>();
     }
 
     public void InitializeNodeData (StructureNode nodeData)
@@ -71,16 +76,25 @@ public class StructureNodeHandler : MonoBehaviour
         {
             switch (highlightState)
             {
-                case HighlightState.NONE: highlightState = HighlightState.HIGHLIGHT; break;
-                case HighlightState.ACTIVATED: highlightState = HighlightState.ACTIVATED_HIGHLIGHT; break;
+                case HighlightState.NONE:
+                case HighlightState.HINT: 
+                    highlightState = HighlightState.HIGHLIGHT;
+                    break;
+                case HighlightState.ACTIVATED:
+                    highlightState = HighlightState.ACTIVATED_HIGHLIGHT;
+                    break;
             }
         }
         else
         {
             switch (highlightState)
             {
-                case HighlightState.HIGHLIGHT: highlightState = HighlightState.NONE; break;
-                case HighlightState.ACTIVATED_HIGHLIGHT: highlightState = HighlightState.ACTIVATED; break;
+                case HighlightState.HIGHLIGHT:
+                    highlightState = HighlightState.NONE;
+                    break;
+                case HighlightState.ACTIVATED_HIGHLIGHT:
+                    highlightState = HighlightState.ACTIVATED;
+                    break;
             }
         }
         RefreshView();
@@ -92,16 +106,25 @@ public class StructureNodeHandler : MonoBehaviour
         {
             switch (highlightState)
             {
-                case HighlightState.NONE: highlightState = HighlightState.ACTIVATED; break;
-                case HighlightState.HIGHLIGHT: highlightState = HighlightState.ACTIVATED_HIGHLIGHT; break;
+                case HighlightState.NONE: 
+                case HighlightState.HINT: 
+                    highlightState = HighlightState.ACTIVATED; 
+                    break;
+                case HighlightState.HIGHLIGHT: 
+                    highlightState = HighlightState.ACTIVATED_HIGHLIGHT; 
+                    break;
             }
         }
         else
         {
             switch (highlightState)
             {
-                case HighlightState.ACTIVATED: highlightState = HighlightState.NONE; break;
-                case HighlightState.ACTIVATED_HIGHLIGHT: highlightState = HighlightState.HIGHLIGHT; break;
+                case HighlightState.ACTIVATED:
+                    highlightState = HighlightState.NONE;
+                    break;
+                case HighlightState.ACTIVATED_HIGHLIGHT:
+                    highlightState = HighlightState.HIGHLIGHT;
+                    break;
             }
         }
         RefreshView();
@@ -114,5 +137,10 @@ public class StructureNodeHandler : MonoBehaviour
         highlightCosmeticObject.SetActive(highlightState == HighlightState.HIGHLIGHT);
         activateCosmeticObject.SetActive(highlightState == HighlightState.ACTIVATED);
         activateHighlightCosmeticObject.SetActive(highlightState == HighlightState.ACTIVATED_HIGHLIGHT);
+        
+        if (collider != null)
+        {
+            collider.enabled = (highlightState != HighlightState.NONE);
+        }
     }
 }
