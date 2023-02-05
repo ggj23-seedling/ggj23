@@ -5,19 +5,19 @@ After a common disgrace like the previous earthquake is very likely to make peac
 I see, let's do that.
 The merchants, the old spirit, the foreign delegation and the other inhabitants are reunited in the council, the only absent is the small mean presence.
 The old spirit made only a question to everyone:
-"Are you a good guy?"
+Old spirit "Are you a good guy?"
 + + Yes
-"Wonderful, I'm glad to hear that, stay on track!
+Old spirit "Wonderful, I'm glad to hear that, stay on track!
 ~ cooperation = cooperation +1
 + + I can do better
-Like everyone in this world, do your best!
+Old spirit "Like everyone in this world, do your best!"
 ~ resources = resources +20
 + + Not at all
-At this point of the game this could be a problem, why the others have to accept a request of peace from a bad guy?
+Old spirit "At this point of the game this could be a problem, why the others have to accept a request of peace from a bad guy?
 I don't know, maybe for convenience? For the hope of a redemption?
-This is a really weak argomentation but I'm not the judge
+This is a really weak argomentation but I'm not the judge"
 + This is the right moment for the rich ones to attack and colonize!
-Corrupted also in the inside, at least you have entertained me!
+Old spirit "Corrupted also in the inside, at least you have entertained me!"
 ~ hostility = hostility +1
 ~ cooperation = cooperation -1
 ~ resources = resources +20
