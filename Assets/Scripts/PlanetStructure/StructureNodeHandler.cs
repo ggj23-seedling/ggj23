@@ -98,7 +98,8 @@ public class StructureNodeHandler : MonoBehaviour
         GameObject cosmeticObjectPrefabBackup = cosmeticObjectPrefab;
 
         cosmeticObjectPrefab = null;
-        if (cosmeticResourcesHandler != null && vertexColorInterpreter != null)
+        if (cosmeticResourcesHandler != null && vertexColorInterpreter != null
+            && nodeData != null && nodeData.model != null)
         {
             if (nodeData.model.IsConnected)
             {
@@ -160,8 +161,22 @@ public class StructureNodeHandler : MonoBehaviour
             if (cosmeticObjectPrefab != cosmeticObjectPrefabBackup)
             {
                 GameObject newGameObject = Instantiate(cosmeticObjectPrefab, cosmeticObjectContainer.transform);
-                newGameObject.transform.localScale = Vector3.one;
-                newGameObject.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+                
+                Vector3 tmpScale = Vector3.one;
+                Transform parentTransform = newGameObject.transform;
+                do
+                {
+                    newGameObject.transform.localScale = Vector3.Scale(tmpScale, parentTransform.localScale);
+                    parentTransform = parentTransform.parent;
+                } while (parentTransform != null);
+
+                newGameObject.transform.localScale = new Vector3 (1.0f / tmpScale.x, 1.0f / tmpScale.y, 1.0f / tmpScale.z);
+
+                Vector3 upDirection = (this.transform.position - this.transform.parent.position).normalized;
+                Vector3 lookDirection = Vector3.Cross(upDirection, Vector3.forward);
+                Quaternion globalRotation = Quaternion.LookRotation(lookDirection, upDirection);
+
+                newGameObject.transform.SetPositionAndRotation(this.transform.position, globalRotation);
             }
             cosmeticObjectContainer.SetActive(true);
         }
