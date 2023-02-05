@@ -49,7 +49,7 @@ public class PlanetStructureGenerator : MonoBehaviour
 
     private void Awake()
     {
-        vertexColorInterpeter = GetComponent<VertexColorInterpreter>();
+        vertexColorInterpeter = FindObjectOfType<VertexColorInterpreter>();
         GenerateData();
         if (debugData.activateDebug)
         {
