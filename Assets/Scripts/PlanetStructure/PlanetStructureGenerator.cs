@@ -32,10 +32,16 @@ public class PlanetStructureGenerator : MonoBehaviour
     private MeshFilter planetMesh;
 
     [SerializeField]
-    public GameObject nodeMarkerObject;
+    private GameObject nodeMarkerObject;
 
-    private PlanetStructure planetStructure;
+    [SerializeField]
+    private GameObject linkObject;
 
+    private PlanetStructure planetStructure; // only data
+
+    private Dictionary<StructureNode, StructureNodeHandler> nodeHandlers = null;
+
+    
     private void Awake()
     {
         GenerateData();
@@ -49,6 +55,7 @@ public class PlanetStructureGenerator : MonoBehaviour
     {
         FindObjectOfType<ModelConfiguration>().BeReady();
         planetStructure = new PlanetStructure();
+        nodeHandlers = new Dictionary<StructureNode, StructureNodeHandler>();
         List<StructureNode> nodes = null;
 
         if (planetMesh)
@@ -64,6 +71,7 @@ public class PlanetStructureGenerator : MonoBehaviour
                 if (planetMesh.sharedMesh.subMeshCount > 1) { Debug.LogError("The planet structure mesh contains multiple subMeshes"); return; }
 
                 // Read nodes
+                nodeHandlers = new Dictionary<StructureNode, StructureNodeHandler>(meshDataArray[0].vertexCount);
                 nodes = new List<StructureNode>(meshDataArray[0].vertexCount); // this collapses identical vertices
                 List<StructureNode> allNodes = new List<StructureNode>(meshDataArray[0].vertexCount); // this contains duplicated vertices 
 
@@ -92,17 +100,26 @@ public class PlanetStructureGenerator : MonoBehaviour
                             nodes.Add(newNode);
                             allNodes.Add(newNode);
 
-                            Transform newObjectTransform = planetMesh.gameObject.transform;
                             GameObject newMarker = Instantiate(nodeMarkerObject, planetMesh.transform);
                             newMarker.transform.SetLocalPositionAndRotation(newNode.localPosition, newNode.localRotation);
-                            
+
+                            newMarker.transform.localScale = getPlanetInverseScaleFactor();
+
                             Collider c = newMarker.GetComponent<Collider>();
                             if (c == null)
                             {
                                 c = newMarker.AddComponent<SphereCollider>();
                             }
 
-                            c.enabled = false;
+                            StructureNodeHandler nodeHandler = newMarker.GetComponent<StructureNodeHandler>();
+                            if (nodeHandler == null)
+                            {
+                                nodeHandler = newMarker.AddComponent<StructureNodeHandler>();
+                            }
+                            nodeHandler.InitializeNodeData(newNode);
+                            nodeHandlers.Add(newNode, nodeHandler);
+
+                            c.enabled = true;
                         }
                         else
                         {
@@ -126,7 +143,7 @@ public class PlanetStructureGenerator : MonoBehaviour
             }           
         }
 
-        if (nodes != null)
+        if (nodes != null && nodeHandlers != null)
         {
             planetStructure = new PlanetStructure(nodes);
         }
@@ -145,10 +162,27 @@ public class PlanetStructureGenerator : MonoBehaviour
     
             for (int i = debugData.nodeMarkerStartIndex; i < Mathf.Min(debugData.nodeMarkerStartIndex + debugData.nodeMarkersCount, planetStructure.nodes.Count); i++)
             {
-                Transform newObjectTransform = planetMesh.gameObject.transform;
                 GameObject newMarker = Instantiate((GameObject)null, planetMesh.transform);
                 newMarker.transform.SetLocalPositionAndRotation(planetStructure.nodes[i].localPosition, planetStructure.nodes[i].localRotation);
+                newMarker.transform.localScale = getPlanetInverseScaleFactor();
             }
         }
+    }
+
+    private Vector3 getPlanetInverseScaleFactor ()
+    {
+        return new Vector3(1 / planetMesh.transform.localScale.x,
+                        1 / planetMesh.transform.localScale.y,
+                        1 / planetMesh.transform.localScale.z);
+    }
+
+    public void spawnLinkObject (StructureNodeHandler fromNode, StructureNodeHandler toNode)
+    {
+        GameObject newObject = Instantiate(linkObject, planetMesh.transform);
+        Quaternion globalRotation = Quaternion.LookRotation(toNode.nodeData.localPosition - fromNode.nodeData.localPosition, fromNode.nodeData.normalDirection);
+        newObject.transform.SetLocalPositionAndRotation(fromNode.nodeData.localPosition, Quaternion.identity);
+        newObject.transform.SetPositionAndRotation(newObject.transform.position, globalRotation);
+
+        newObject.transform.localScale = getPlanetInverseScaleFactor();
     }
 }

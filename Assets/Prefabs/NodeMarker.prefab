@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8127387512706587656}
   - component: {fileID: 5364434870465438305}
+  - component: {fileID: 928929303462197845}
+  - component: {fileID: -3798096735124134201}
   m_Layer: 0
   m_Name: NodeMarker
   m_TagString: Untagged
@@ -43,5 +45,29 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 0
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 0.3
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &928929303462197845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8127387512706587653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a4461f2e5a9b87429c72d4476d79860, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-3798096735124134201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8127387512706587653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5d41b2c89059514aa61ddcf8879c28d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

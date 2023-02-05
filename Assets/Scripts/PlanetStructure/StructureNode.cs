@@ -15,10 +15,13 @@ namespace PlanetStructureTypes
 
         public Quaternion localRotation { get; }
 
+        public Vector3 normalDirection { get { return vertexData.normal; } }
+
+
         private VertexData vertexData;
 
         // position in world space coordinates
-        NodeModel model { get; }
+        public NodeModel model { get; }
         public List<StructureNode> neighbours;
 
         public StructureNode(Transform planetTransform, VertexData vertexData)
