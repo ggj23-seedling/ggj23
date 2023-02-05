@@ -97,7 +97,7 @@ public class PlanetInputController : MonoBehaviour
             }            
 
             activeNodeBehaviour = activeNodeBehaviourType.NONE;
-            activeNode.SetHighlight(false);
+            activeNode.Highlighted = false;
             setHintHighlightToNeighbours(activeNode, false);
             activeNode = null;
         }
@@ -114,21 +114,19 @@ public class PlanetInputController : MonoBehaviour
     }
 
     private void OnLinkStartRequest () // TODO attach: attach when the link button is pressed
-    {
-        bool canStartLink = true; // TODO
-
+    {        
         if (activeNode != null)
         {
-            if (canStartLink)
+            if (activeNode.Connected)
             {
                 activeNodeBehaviour = activeNodeBehaviourType.START_LINK;
-                activeNode.SetHighlight(true);
+                activeNode.Highlighted = true;
                 setHintHighlightToNeighbours(activeNode, true);
             }
             else
             {
                 UnityEngine.Debug.LogError("A link has start has been requested to an invalid node.");
-                activeNode.SetHighlight(false);
+                activeNode.Highlighted = false;
                 setHintHighlightToNeighbours(activeNode, false);
                 activeNodeBehaviour = activeNodeBehaviourType.NONE;
                 activeNode = null;
@@ -140,7 +138,7 @@ public class PlanetInputController : MonoBehaviour
         else
         {
             UnityEngine.Debug.LogWarning("A link has been started without an active node.");
-            activeNode.SetHighlight(false);
+            activeNode.Highlighted = false;
             setHintHighlightToNeighbours(activeNode, false);
             activeNodeBehaviour = activeNodeBehaviourType.NONE;
             activeNode = null;
@@ -156,7 +154,7 @@ public class PlanetInputController : MonoBehaviour
                 StructureNodeHandler h = planetStructureGenerator.getHandler(n);
                 if (h != null && centerNode.nodeData.model.CanExpandTo(h.nodeData.model))
                 {
-                    h.SetHintHighlight(true);
+                    h.Hinted = true;
                 }
             }
         }
@@ -167,7 +165,7 @@ public class PlanetInputController : MonoBehaviour
                 StructureNodeHandler h = planetStructureGenerator.getHandler(n);
                 if (h != null)
                 {
-                    h.SetHintHighlight(false);
+                    h.Hinted = false;
                 }
             }
         }

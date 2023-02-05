@@ -7,14 +7,29 @@ using System;
 
 public class StructureNodeHandler : MonoBehaviour
 {
-    enum HighlightState
+    private bool hinted = false;
+    public bool Hinted
     {
-        NONE, // niente
-        HINT, // fase di collegamento, nodo destinazione suggerito
-        HIGHLIGHT, // fase di collegamento, nodo di partenza confermato
-        ACTIVATED, // collegato alla root
-        ACTIVATED_HIGHLIGHT // collegato alla root, in fase di collegamento, come nodo di partenza
+        get => hinted;
+        set
+        {
+            hinted = value;
+            RefreshView();
+        }
     }
+    
+    private bool highlighted = false;
+    public bool Highlighted
+    {
+        get => highlighted;
+        set
+        {
+            highlighted = value;
+            RefreshView();
+        }
+    }
+
+    public bool Connected => _nodeData?.model?.IsConnected ?? false;
 
     private StructureNode _nodeData = null;
     public StructureNode nodeData { get { return _nodeData; } }
@@ -31,8 +46,6 @@ public class StructureNodeHandler : MonoBehaviour
     private GameObject activateHighlightCosmeticObject;
 
     private Collider nodeCollider;
-
-    HighlightState highlightState = HighlightState.NONE;
 
     private void Awake()
     {
@@ -54,108 +67,47 @@ public class StructureNodeHandler : MonoBehaviour
 
         if (nodeData.model == NodeModel.Root)
         {
-            highlightState = HighlightState.ACTIVATED;
+            highlighted = true;
         }
-        else
-        {
-            highlightState = HighlightState.NONE;
-        }
-
         RefreshView();
     }
 
     private void OnModelChanged(NodeModel model)
     {
-        RefreshConnected(model.IsConnected);
         RefreshView();
     }
-
-    public void SetHintHighlight(bool hintHighlight)
-    {
-        if (hintHighlight && highlightState == HighlightState.NONE)
-        {
-            highlightState = HighlightState.HINT;
-        }
-        else if (!hintHighlight && highlightState == HighlightState.HINT)
-        {
-            highlightState = HighlightState.NONE;
-        }
-        RefreshView();
-    }
-
-    public void SetHighlight (bool highlight)
-    {
-        if (highlight)
-        {
-            switch (highlightState)
-            {
-                case HighlightState.NONE:
-                case HighlightState.HINT: 
-                    highlightState = HighlightState.HIGHLIGHT;
-                    break;
-                case HighlightState.ACTIVATED:
-                    highlightState = HighlightState.ACTIVATED_HIGHLIGHT;
-                    break;
-            }
-        }
-        else
-        {
-            switch (highlightState)
-            {
-                case HighlightState.HIGHLIGHT:
-                    highlightState = HighlightState.NONE;
-                    break;
-                case HighlightState.ACTIVATED_HIGHLIGHT:
-                    highlightState = HighlightState.ACTIVATED;
-                    break;
-            }
-        }
-        RefreshView();
-    }
-
-    public void RefreshConnected(bool connected)
-    {
         
-        if (connected)
-        {
-            Debug.Log("Displaying new connected node");
-            switch (highlightState)
-            {
-                case HighlightState.NONE: 
-                case HighlightState.HINT: 
-                    highlightState = HighlightState.ACTIVATED; 
-                    break;
-                case HighlightState.HIGHLIGHT: 
-                    highlightState = HighlightState.ACTIVATED_HIGHLIGHT; 
-                    break;
-            }
-        }
-        else
-        {
-            switch (highlightState)
-            {
-                case HighlightState.ACTIVATED:
-                    highlightState = HighlightState.NONE;
-                    break;
-                case HighlightState.ACTIVATED_HIGHLIGHT:
-                    highlightState = HighlightState.HIGHLIGHT;
-                    break;
-            }
-        }
-        RefreshView();
-    }
-
     private void RefreshView()
     {
-        baseCosmeticObject.SetActive(highlightState == HighlightState.NONE);
-        hintHighlightCosmeticObject.SetActive(highlightState == HighlightState.HINT);
-        highlightCosmeticObject.SetActive(highlightState == HighlightState.HIGHLIGHT);
-        activateCosmeticObject.SetActive(highlightState == HighlightState.ACTIVATED);
-        activateHighlightCosmeticObject.SetActive(highlightState == HighlightState.ACTIVATED_HIGHLIGHT);
+        baseCosmeticObject.SetActive(false);
+        hintHighlightCosmeticObject.SetActive(false);
+        highlightCosmeticObject.SetActive(false);
+        activateCosmeticObject.SetActive(false);
+        activateHighlightCosmeticObject.SetActive(false);
         
+        GameObject activeShape = baseCosmeticObject;
+        if (Connected)
+        {
+            activeShape = activateCosmeticObject;
+            if (Highlighted)
+            {
+                activeShape = activateHighlightCosmeticObject;
+            }
+            if (Hinted)
+            {
+                activeShape = hintHighlightCosmeticObject;
+            }
+        }
+        else if (Hinted)
+        {
+            activeShape = highlightCosmeticObject;
+        }
+        activeShape.SetActive(true);
+
+
         if (nodeCollider != null)
         {
-            nodeCollider.enabled = (highlightState != HighlightState.NONE);
+            nodeCollider.enabled = Connected || Hinted || Highlighted;
         }
     }
 }
