@@ -65,6 +65,7 @@ public class NodeModel : Listenable<NodeModel>
             links.Add(other);
             other.links.Add(this);
             connected.Add(other);
+            other.NotifyListeners();
         }
         else
         { 
@@ -149,7 +150,7 @@ public class NodeModel : Listenable<NodeModel>
         NotifyListeners();
     }
 
-    private static void UnlinkSingleNode (NodeModel node)
+    private static void UnlinkSingleNode(NodeModel node)
     {
         UnityEngine.Debug.Log($"Unlinking a node with {node.links.Count} links");
         foreach (NodeModel link in node.links)
@@ -158,6 +159,7 @@ public class NodeModel : Listenable<NodeModel>
         }
         node.links.Clear();
         connected.Remove(node);
+        node.NotifyListeners();
     }
 
     private static void UnlinkAllDisconnected()

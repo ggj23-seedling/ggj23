@@ -84,9 +84,7 @@ public class PlanetInputController : MonoBehaviour
                     if (activeNodeModel.CanExpandTo(clickedNodeModel))
                     {
                         activeNodeModel.ExpandTo(nodeHandler.nodeData.model);
-                        planetStructureGenerator.spawnLinkObject(activeNode, nodeHandler);
-                        // TODO: la grafica deve ascoltare il modello perchè altrimenti si rompe con le logiche interne degli attacchi
-                        nodeHandler.SetActivated(true);
+                        planetStructureGenerator.spawnLinkObject(activeNode, nodeHandler);                        
                     } else
                     {
                         Debug.Log("Cannot expand to that node");
