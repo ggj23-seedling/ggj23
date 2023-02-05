@@ -67,6 +67,12 @@ public class PlanetInputController : MonoBehaviour
         // TODO: fare roba o aprire menù, o altro
         // qui si setta nodeMenuOpened
 
+        if (!Clock.Instance().CanClickOnNodes)
+        {
+            Debug.Log("Can't click on nodes: it's not the player's turn");
+            return;
+        }
+
         bool canOpenMenu = true; // TODO
 
         if (activeNode != null)
@@ -84,7 +90,8 @@ public class PlanetInputController : MonoBehaviour
                     if (activeNodeModel.CanExpandTo(clickedNodeModel))
                     {
                         activeNodeModel.ExpandTo(nodeHandler.nodeData.model);
-                        planetStructureGenerator.spawnLinkObject(activeNode, nodeHandler);                        
+                        planetStructureGenerator.spawnLinkObject(activeNode, nodeHandler);
+                        Clock.Instance().NextTurn();
                     } else
                     {
                         Debug.Log("Cannot expand to that node");
@@ -125,7 +132,7 @@ public class PlanetInputController : MonoBehaviour
             }
             else
             {
-                UnityEngine.Debug.LogError("A link has start has been requested to an invalid node.");
+                // A link start has been requested to an invalid node
                 activeNode.Highlighted = false;
                 setHintHighlightToNeighbours(activeNode, false);
                 activeNodeBehaviour = activeNodeBehaviourType.NONE;
