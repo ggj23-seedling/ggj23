@@ -130,7 +130,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh44950
+  m_Name: pb_Mesh130840
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -896,7 +896,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: bf5275c4b2fe11d4db7757e7d1184c29,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1106935185939561179, guid: bf5275c4b2fe11d4db7757e7d1184c29,
         type: 3}
@@ -1027,18 +1027,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7e3708431a39804a9231ba41c6f51fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1458224544 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 655918635695057691, guid: 01e77c1bee983ac48887d3601bdc2e8e,
-    type: 3}
-  m_PrefabInstance: {fileID: 558136683}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a334fe2ffb574b3583ff3b18b4792d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1545226455 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3003139299117278264, guid: 133cf4eed274cbc46b98ab1409c3205a,
@@ -1074,7 +1062,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61dddfdc5e0e44ca298d8f46f7f5a915, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedFlowchart: {fileID: 1458224544}
+  selectedFlowchart: {fileID: 0}
 --- !u!4 &1572876776
 Transform:
   m_ObjectHideFlags: 1
@@ -39202,7 +39190,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 285177568}
-  m_VersionIndex: 19
+  m_VersionIndex: 22
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []

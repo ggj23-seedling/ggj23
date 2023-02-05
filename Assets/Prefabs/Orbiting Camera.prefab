@@ -26,14 +26,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7645116460733346995}
-  m_LocalRotation: {x: -0.22610724, y: 0.77269787, z: -0.3942653, w: -0.4431348}
+  m_LocalRotation: {x: 0.22610657, y: -0.77269834, z: 0.39426166, w: 0.44313765}
   m_LocalPosition: {x: 7.3032455, y: 15.978264, z: 6.391083}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 54.065, y: -120.332, z: 0}
 --- !u!20 &7645116460733346993
 Camera:
   m_ObjectHideFlags: 0
@@ -98,8 +98,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  fallingSpeed: 500
-  fallingHeight: 1000
+  fallingSpeed: 5
+  fallingHeight: 10
   impactHeight: 20
   orbitingSpeed: 100
   orbitingHeight: 20

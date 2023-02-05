@@ -42,8 +42,8 @@ public class Orbiting : MonoBehaviour
         switch (phase)
         {
             case CameraPhase.falling:
-                height -= fallingSpeed * Time.deltaTime;
-                if (height < impactHeight)
+                height = Mathf.MoveTowards(height, impactHeight, fallingSpeed * Time.deltaTime);
+                if (height == impactHeight)
                 {
                     phase = CameraPhase.orbiting;
                     OnImpact();
@@ -71,19 +71,19 @@ public class Orbiting : MonoBehaviour
 
             if (Input.GetKey(KeyCode.W))
             {
-                transform.RotateAround(target.position, transform.right, orbitingSpeed * Time.deltaTime);
+                Up();
             }
             if (Input.GetKey(KeyCode.A))
             {
-                transform.RotateAround(target.position, transform.up, orbitingSpeed * Time.deltaTime);
+                Left();
             }
             if (Input.GetKey(KeyCode.S))
             {
-                transform.RotateAround(target.position, -transform.right, orbitingSpeed * Time.deltaTime);
+                Down();
             }
             if (Input.GetKey(KeyCode.D))
             {
-                transform.RotateAround(target.position, -transform.up, orbitingSpeed * Time.deltaTime);
+                Right();
             }
         }
 
@@ -93,5 +93,25 @@ public class Orbiting : MonoBehaviour
     {
         Debug.LogWarning("OnImpact");
         Clock.Instance().NextTurn();
+    }
+
+    public void Up()
+    {
+        transform.RotateAround(target.position, transform.right, orbitingSpeed * Time.deltaTime);
+    }
+
+    public void Down()
+    {
+        transform.RotateAround(target.position, -transform.right, orbitingSpeed * Time.deltaTime);
+    }
+
+    public void Right()
+    {
+        transform.RotateAround(target.position, -transform.up, orbitingSpeed * Time.deltaTime);
+    }
+
+    public void Left()
+    {
+        transform.RotateAround(target.position, transform.up, orbitingSpeed * Time.deltaTime);
     }
 }
