@@ -1,5 +1,7 @@
 === Episode7earthquake ===
-Yeah, it isn't your impression, the tramble is real. You may have done something really wrong or this is only the normal course of the nature, we can't say. The certain thing is that everyone have lost a lot of resources during this event.
+Yeah, it isn't your impression, the tramble is real. 
+You may have done something really wrong or this is only the normal course of the nature, we can't say.
+The certain thing is that everyone have lost a lot of resources during this event.
 ~ resources = resources -60
 + But, I didn't anything wrong!
 Life could be cruel sometimes, deal with it.
