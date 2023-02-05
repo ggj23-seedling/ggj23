@@ -20,6 +20,7 @@ public class NodeModel : Listenable<NodeModel>
         get => root;
         set { root = value; connected.Add(root); }
     }
+    public bool IsRoot { get { return root == this; } }
 
     static readonly HashSet<NodeModel> connected = new();
     public static ISet<NodeModel> Connected
@@ -30,6 +31,7 @@ public class NodeModel : Listenable<NodeModel>
 
     int resources; // resources per extraction
     int population; // natives
+    public int Population { get { return population; } }
     int attack;
     int defense;
     int extraction; // extractions per turn

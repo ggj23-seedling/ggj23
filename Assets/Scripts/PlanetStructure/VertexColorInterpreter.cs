@@ -21,6 +21,10 @@ public class VertexColorInterpreter : MonoBehaviour
     private int townPopulation;
     private int villagePopulation;
 
+    public int CityPopulation { get { return cityPopulation; } }
+    public int TownPopulation { get { return townPopulation; } }
+    public int VillagePopulation{ get { return villagePopulation; } }
+
     // Start is called before the first frame update
     void Start()
     {

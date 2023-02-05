@@ -45,11 +45,11 @@ public class PlanetStructureGenerator : MonoBehaviour
 
     private Dictionary<StructureNode, StructureNodeHandler> nodeHandlers = null;
 
-    [SerializeField]
     private VertexColorInterpreter vertexColorInterpeter;
 
     private void Awake()
     {
+        vertexColorInterpeter = FindObjectOfType<VertexColorInterpreter>();
         GenerateData();
         if (debugData.activateDebug)
         {
