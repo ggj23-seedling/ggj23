@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using PlanetStructureTypes;
+using System;
 
 public class StructureNodeHandler : MonoBehaviour
 {
@@ -49,6 +50,8 @@ public class StructureNodeHandler : MonoBehaviour
         }
         this._nodeData = nodeData;
 
+        nodeData.ListenToModelChanges(OnModelChanged);
+
         if (nodeData.model == NodeModel.Root)
         {
             highlightState = HighlightState.ACTIVATED;
@@ -58,6 +61,12 @@ public class StructureNodeHandler : MonoBehaviour
             highlightState = HighlightState.NONE;
         }
 
+        RefreshView();
+    }
+
+    private void OnModelChanged(NodeModel model)
+    {
+        RefreshConnected(model.IsConnected);
         RefreshView();
     }
 
@@ -104,10 +113,12 @@ public class StructureNodeHandler : MonoBehaviour
         RefreshView();
     }
 
-    public void SetActivated(bool activated)
+    public void RefreshConnected(bool connected)
     {
-        if (activated)
+        
+        if (connected)
         {
+            Debug.Log("Displaying new connected node");
             switch (highlightState)
             {
                 case HighlightState.NONE: 

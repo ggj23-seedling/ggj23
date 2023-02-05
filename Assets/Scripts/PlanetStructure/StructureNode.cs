@@ -59,5 +59,10 @@ namespace PlanetStructureTypes
                 Debug.LogWarning("Cannot add the node ad neighbour of hinmself. Something strange in the logic.");
             }
         }
+
+        public void ListenToModelChanges(System.Action<NodeModel> action)
+        {
+            model.AddListener(action);
+        }
     }
 }
