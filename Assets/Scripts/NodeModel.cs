@@ -4,6 +4,14 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 
+public enum NodeEvolution
+{
+    none,
+    defense,
+    attack,
+    extraction
+}
+
 public class NodeModel : Listenable<NodeModel>
 {
     static NodeModel root;
@@ -33,6 +41,12 @@ public class NodeModel : Listenable<NodeModel>
 
     HashSet<NodeModel> neighbors;
     HashSet<NodeModel> links = new();
+
+    private NodeEvolution evolution = NodeEvolution.none;
+    public NodeEvolution Evolution => evolution;
+
+    private bool superevolved = false;
+    public bool Superevolved => superevolved;
 
     public NodeModel(
         int? resources = null,
@@ -106,9 +120,10 @@ public class NodeModel : Listenable<NodeModel>
         {
             if (value > from)
             {
+                superevolved = value > values[1];
                 return value;
             }
-        }
+        }        
         UnityEngine.Debug.LogWarning("Check CanEvolve() before calling Evolve()");
         return from;
     }
@@ -122,24 +137,28 @@ public class NodeModel : Listenable<NodeModel>
     public void EvolveDefense()
     {
         defense = Evolve(ModelConfiguration.values.defenseValues, defense);
+        evolution = NodeEvolution.defense;
         NotifyListeners();
     }
 
     public void EvolveAttack()
     {
         attack = Evolve(ModelConfiguration.values.attackValues, attack);
+        evolution = NodeEvolution.attack;
         NotifyListeners();
     }
 
     public void EvolveExtraction()
     {
         extraction = Evolve(ModelConfiguration.values.extractionValues, extraction);
+        evolution = NodeEvolution.extraction;
         NotifyListeners();
     }
 
     public void EvolveExtension()
     {
         extension = Evolve(ModelConfiguration.values.extensionValues, extension);
+        // evolution = NodeEvolution.extension;
         NotifyListeners();
     }
 

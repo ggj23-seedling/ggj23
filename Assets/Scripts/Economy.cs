@@ -52,7 +52,9 @@ public class Economy : Listenable<Economy>
         {
             globallyExtracted += node.Extract();
         }
-        GlobalResources += globallyExtracted;
+        GlobalResources = GlobalResources + globallyExtracted;
+        Debug.Log($"Globally extracted {globallyExtracted} more resources. " +
+            $"Total = {GlobalResources}");
     }
 
     public bool CanSpend(int amount) => GlobalResources >= amount;
