@@ -210,10 +210,10 @@ public class PlanetStructureGenerator : MonoBehaviour
     public void spawnLinkObject (StructureNodeHandler fromNode, StructureNodeHandler toNode)
     {
         GameObject newObject = Instantiate(linkObject, planetMesh.transform);
-        Quaternion globalRotation = Quaternion.LookRotation(toNode.nodeData.localPosition - fromNode.nodeData.localPosition, fromNode.nodeData.normalDirection);
-        newObject.transform.SetLocalPositionAndRotation(fromNode.nodeData.localPosition, Quaternion.identity);
-        newObject.transform.SetPositionAndRotation(newObject.transform.position, globalRotation);
-
+        Vector3 lookDirection = toNode.gameObject.transform.position - fromNode.gameObject.transform.position;
+        Vector3 upDirection = fromNode.gameObject.transform.position - planetMesh.transform.position;
+        Quaternion globalRotation = Quaternion.LookRotation(lookDirection, upDirection);
+        newObject.transform.SetPositionAndRotation(fromNode.gameObject.transform.position, globalRotation);       
         newObject.transform.localScale = getPlanetInverseScaleFactor();
     }
 
