@@ -6,9 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/InkFungus/Documentation/Interactive Documentation.unity
-    guid: 8c920e91be9f3c94cbfc7ddebc9edeb8
-  - enabled: 0
-    path: Assets/Scenes/Template Scene.unity
-    guid: 891c32f806445404ab1f2226ac83b861
+    path: Assets/Scenes/Lab/VideoIntro.unity
+    guid: 3f1c33cc433971e47a189aaf28b5ff0f
+  - enabled: 1
+    path: Assets/Scenes/Lab/ScenaFinale.unity
+    guid: 59dd070b9d06576498b690ebfc1ee024
   m_configObjects: {}

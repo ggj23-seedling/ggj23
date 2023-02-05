@@ -12,6 +12,7 @@ using System.Transactions;
 using System;
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEditor.SceneManagement;
+using UnityEditor.Rendering;
 
 public class PlanetStructureGenerator : MonoBehaviour
 {
@@ -117,6 +118,12 @@ public class PlanetStructureGenerator : MonoBehaviour
 
                             GameObject newMarker = Instantiate(nodeMarkerObject, planetMesh.transform);
                             newMarker.transform.SetLocalPositionAndRotation(newNode.localPosition, newNode.localRotation);
+
+                            Vector3 upDirection = newMarker.transform.position - planetMesh.transform.position;
+                            Vector3 lookDirection = Vector3.Cross(upDirection, Vector3.forward);
+                            Quaternion globalRotation = Quaternion.LookRotation(lookDirection, upDirection);
+
+                            newMarker.transform.SetPositionAndRotation(newMarker.transform.position, globalRotation);
 
                             newMarker.transform.localScale = getPlanetInverseScaleFactor();
 
