@@ -66,8 +66,9 @@ public class VertexColorInterpreter : MonoBehaviour
     {
         if (LooksLike(color, rootColor))
         {
-            // Debug.Log("Mountain detected");
-            return new NodeModel(impassable: !mountainsCanBePassed, resources: desertResources);
+            Debug.Log("Root node detected");
+            NodeModel.Root = new();
+            return NodeModel.Root;
         }
         else if (LooksLike(color, mountainColor))
         {
@@ -104,13 +105,7 @@ public class VertexColorInterpreter : MonoBehaviour
             // Debug.Log("Village detected");
             return new NodeModel(population: villagePopulation, resources: populatedAreaResources);
         }
-        else if (LooksLike(color, rootColor))
-        {
-            Debug.Log("Root node detected");
-            NodeModel.Root = new();
-            return NodeModel.Root;
-        }
-        else
+        else 
         {
             Debug.Log($"Color not recognized: {color}");
             Debug.Log($"Valid colors: {mountainColor}, {grassColor}, {seaColor}, {desertColor}, {cityColor}, {townColor}, {villageColor}, {rootColor}");
