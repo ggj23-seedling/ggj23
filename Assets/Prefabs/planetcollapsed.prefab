@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2183475097174210593}
   - component: {fileID: 4200121764300103216}
   - component: {fileID: 8806765359970661607}
+  - component: {fileID: 4427277518673638949}
   m_Layer: 0
   m_Name: planetcollapsed
   m_TagString: Untagged
@@ -145,3 +146,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e800e8fa3f9a4c43b91e490930fc37f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!135 &4427277518673638949
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3003139299117278264}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.009999999
+  m_Center: {x: -4.6566126e-10, y: 0, z: 0}
