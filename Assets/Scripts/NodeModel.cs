@@ -98,7 +98,7 @@ public class NodeModel : Listenable<NodeModel>
         if (connected.Contains(this))
         {
             LinkWith(other);
-            E.Spend(E.ExpansionCost);
+            E.Spend(E.ExpansionCost, true);
         }
         else
         {
@@ -115,7 +115,7 @@ public class NodeModel : Listenable<NodeModel>
 
     private int Evolve(int[] values, int from)
     {
-        E.Spend(E.EvolutionCost);
+        E.Spend(E.EvolutionCost, true);
         foreach (int value in values)
         {
             if (value > from)
@@ -218,6 +218,10 @@ public class NodeModel : Listenable<NodeModel>
 
     public int Extract()
     {
+        if (this == Root)
+        {
+            return 0;
+        }
         int extracted = 0;
         for (int i = 0; i < extraction; i++)
         {
@@ -227,7 +231,7 @@ public class NodeModel : Listenable<NodeModel>
                 resources--; // depletion
                 NotifyListeners();
             }
-        }
+        }        
         return extracted;
     }
 

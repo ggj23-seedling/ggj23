@@ -5,8 +5,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 public class Economy : Listenable<Economy>
 {
+    const int InitialBudget = 50; // TODO Get it from ModelConfiguration
+    
     private static readonly Economy instance = new();
 
     public static Economy Instance()
@@ -14,7 +18,18 @@ public class Economy : Listenable<Economy>
         return instance;
     }
 
-    private int globalResources;
+    private int globalResourcesBeforeLastExtraction = InitialBudget;
+    public int GlobalResourcesBeforeLastExtraction
+    {
+        get => globalResourcesBeforeLastExtraction;
+        set
+        {
+            globalResourcesBeforeLastExtraction = value;
+            NotifyListeners();
+        }
+    }
+
+    private int globalResources = InitialBudget;
     public int GlobalResources
     {
         get => globalResources;
@@ -35,8 +50,8 @@ public class Economy : Listenable<Economy>
         switch (clock.Turn)
         {
             case Turn.extraction:
-                Debug.Log($"Extraction");
-                UpdateEconomy();
+                Debug.Log($"Extraction");                
+                Extract();
                 Clock.Instance().NextTurn();
                 break;
             default:
@@ -45,7 +60,7 @@ public class Economy : Listenable<Economy>
         }
     }
 
-    private void UpdateEconomy()
+    private void Extract()
     {
         int globallyExtracted = 0;
         foreach (NodeModel node in NodeModel.Connected)
@@ -53,15 +68,21 @@ public class Economy : Listenable<Economy>
             globallyExtracted += node.Extract();
         }
         GlobalResources = GlobalResources + globallyExtracted;
+        // Doesn't update GlobalResourcesBeforeLastExtraction
         Debug.Log($"Globally extracted {globallyExtracted} more resources. " +
             $"Total = {GlobalResources}");
     }
 
     public bool CanSpend(int amount) => GlobalResources >= amount;
 
-    public void Spend(int amount)
-    {
-        GlobalResources -= amount;
+    public void Spend(int amount, bool notifyListeners = false)
+    {        
+        globalResources -= amount;
+        globalResourcesBeforeLastExtraction = GlobalResources;
+        if (notifyListeners)
+        {
+            NotifyListeners();
+        }
         if (amount < 0)
         {
             Debug.LogWarning("Check CanSpend() before calling CanSpend()");
