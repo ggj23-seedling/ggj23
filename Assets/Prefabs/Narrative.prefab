@@ -2025,6 +2025,8 @@ GameObject:
   - component: {fileID: 2929299358294333867}
   - component: {fileID: 6590883769586652761}
   - component: {fileID: 5553366235396188579}
+  - component: {fileID: 1578244022917172661}
+  - component: {fileID: 1234645158125445195}
   m_Layer: 0
   m_Name: Flowchart
   m_TagString: Untagged
@@ -2074,7 +2076,7 @@ MonoBehaviour:
   selectedBlocks:
   - {fileID: 655918635695057667}
   selectedCommands:
-  - {fileID: 4796979685803937686}
+  - {fileID: 1578244022917172661}
   variables:
   - {fileID: 655918635695057670}
   - {fileID: 2842511473138137183}
@@ -2114,6 +2116,7 @@ MonoBehaviour:
   eventHandler: {fileID: 655918635695057664}
   commandList:
   - {fileID: 655918635695057672}
+  - {fileID: 1234645158125445195}
   - {fileID: 655918635695057692}
   - {fileID: 2777376456091268806}
   suppressAllAutoSelections: 0
@@ -2174,6 +2177,7 @@ MonoBehaviour:
   - {fileID: 4796979685803937686}
   - {fileID: 6590883769586652761}
   - {fileID: 5553366235396188579}
+  - {fileID: 1578244022917172661}
   - {fileID: 655918635695057665}
   - {fileID: 2929299358294333867}
   suppressAllAutoSelections: 0
@@ -2751,6 +2755,42 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 11
   indentLevel: 0
+--- !u!114 &1578244022917172661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 655918635695057690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3315ad2ebb85443909a1203d56d9344e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemId: 12
+  indentLevel: 1
+  _duration:
+    floatRef: {fileID: 0}
+    floatVal: 1.5
+  durationOLD: 0
+--- !u!114 &1234645158125445195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 655918635695057690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3315ad2ebb85443909a1203d56d9344e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemId: 13
+  indentLevel: 0
+  _duration:
+    floatRef: {fileID: 0}
+    floatVal: 1.5
+  durationOLD: 0
 --- !u!1 &655918635822778751
 GameObject:
   m_ObjectHideFlags: 0
