@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4044419531655458822
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1041345997426677693}
+  - component: {fileID: 7289224677566607898}
+  - component: {fileID: 725120542549095519}
+  m_Layer: 0
+  m_Name: NodesCosmeticResources
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1041345997426677693
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4044419531655458822}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7289224677566607898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4044419531655458822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 549685473bfa635439f91ac0b391cee2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  warZoneNodePrefab: {fileID: 0}
+--- !u!114 &725120542549095519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4044419531655458822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 247e9f0931cc61a4da713d610e3a2853, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rootColor: {r: 0, g: 0, b: 0, a: 1}
+  seaColor: {r: 0, g: 0, b: 1, a: 1}
+  mountainColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  cityColor: {r: 1, g: 0, b: 0, a: 1}
+  townColor: {r: 0.75, g: 0, b: 0, a: 1}
+  villageColor: {r: 0.5, g: 0, b: 0, a: 1}
+  grassColor: {r: 0, g: 1, b: 0, a: 1}
+  desertColor: {r: 1, g: 1, b: 0, a: 1}
+  populatedAreaResources: 3
+  desertResources: 1
+  mountainsCanBePassed: 0
