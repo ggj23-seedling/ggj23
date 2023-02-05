@@ -31,6 +31,8 @@ public class Clock : Listenable<Clock>
         get => t;
     }
 
+    public bool CanClickOnNodes => t == Turn.player;
+
     public void NextTurn()
     {
         Economy.Instance().BeReady();

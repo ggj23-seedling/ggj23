@@ -67,6 +67,12 @@ public class PlanetInputController : MonoBehaviour
         // TODO: fare roba o aprire menù, o altro
         // qui si setta nodeMenuOpened
 
+        if (!Clock.Instance().CanClickOnNodes)
+        {
+            Debug.Log("Can't click on nodes: it's not the player's turn");
+            return;
+        }
+
         bool canOpenMenu = true; // TODO
 
         if (activeNode != null)
@@ -84,7 +90,8 @@ public class PlanetInputController : MonoBehaviour
                     if (activeNodeModel.CanExpandTo(clickedNodeModel))
                     {
                         activeNodeModel.ExpandTo(nodeHandler.nodeData.model);
-                        planetStructureGenerator.spawnLinkObject(activeNode, nodeHandler);                        
+                        planetStructureGenerator.spawnLinkObject(activeNode, nodeHandler);
+                        Clock.Instance().NextTurn();
                     } else
                     {
                         Debug.Log("Cannot expand to that node");
@@ -97,7 +104,7 @@ public class PlanetInputController : MonoBehaviour
             }            
 
             activeNodeBehaviour = activeNodeBehaviourType.NONE;
-            activeNode.SetHighlight(false);
+            activeNode.Highlighted = false;
             setHintHighlightToNeighbours(activeNode, false);
             activeNode = null;
         }
@@ -114,21 +121,19 @@ public class PlanetInputController : MonoBehaviour
     }
 
     private void OnLinkStartRequest () // TODO attach: attach when the link button is pressed
-    {
-        bool canStartLink = true; // TODO
-
+    {        
         if (activeNode != null)
         {
-            if (canStartLink)
+            if (activeNode.Connected)
             {
                 activeNodeBehaviour = activeNodeBehaviourType.START_LINK;
-                activeNode.SetHighlight(true);
+                activeNode.Highlighted = true;
                 setHintHighlightToNeighbours(activeNode, true);
             }
             else
             {
-                UnityEngine.Debug.LogError("A link has start has been requested to an invalid node.");
-                activeNode.SetHighlight(false);
+                // A link start has been requested to an invalid node
+                activeNode.Highlighted = false;
                 setHintHighlightToNeighbours(activeNode, false);
                 activeNodeBehaviour = activeNodeBehaviourType.NONE;
                 activeNode = null;
@@ -140,7 +145,7 @@ public class PlanetInputController : MonoBehaviour
         else
         {
             UnityEngine.Debug.LogWarning("A link has been started without an active node.");
-            activeNode.SetHighlight(false);
+            activeNode.Highlighted = false;
             setHintHighlightToNeighbours(activeNode, false);
             activeNodeBehaviour = activeNodeBehaviourType.NONE;
             activeNode = null;
@@ -156,7 +161,7 @@ public class PlanetInputController : MonoBehaviour
                 StructureNodeHandler h = planetStructureGenerator.getHandler(n);
                 if (h != null && centerNode.nodeData.model.CanExpandTo(h.nodeData.model))
                 {
-                    h.SetHintHighlight(true);
+                    h.Hinted = true;
                 }
             }
         }
@@ -167,7 +172,7 @@ public class PlanetInputController : MonoBehaviour
                 StructureNodeHandler h = planetStructureGenerator.getHandler(n);
                 if (h != null)
                 {
-                    h.SetHintHighlight(false);
+                    h.Hinted = false;
                 }
             }
         }

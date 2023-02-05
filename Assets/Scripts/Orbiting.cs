@@ -92,5 +92,6 @@ public class Orbiting : MonoBehaviour
     void OnImpact()
     {
         Debug.LogWarning("OnImpact");
+        Clock.Instance().NextTurn();
     }
 }
