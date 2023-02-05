@@ -43,8 +43,8 @@ Camera:
   m_GameObject: {fileID: 7645116460733346995}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.023362402, g: 0.0325191, b: 0.047169805, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -98,5 +98,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  speed: 50
-  height: 20
+  fallingSpeed: 500
+  fallingHeight: 1000
+  impactHeight: 20
+  orbitingSpeed: 100
+  orbitingHeight: 20

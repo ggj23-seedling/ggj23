@@ -43,22 +43,23 @@ public class Orbiting : MonoBehaviour
         {
             case CameraPhase.falling:
                 height -= fallingSpeed * Time.deltaTime;
+                if (height < impactHeight)
+                {
+                    phase = CameraPhase.orbiting;
+                    OnImpact();
+                    transform.position = startingPosition;
+                    transform.rotation = startingRotation;
+                    height = orbitingHeight;
+                }
                 break;
             case CameraPhase.orbiting:
                 height = orbitingHeight;
                 break;
         }
+        
 
         Vector3 radiusVersor = (transform.position - target.position).normalized;
-        transform.position = target.position + radiusVersor * height;
-
-        if (height <= impactHeight)
-        {
-            phase = CameraPhase.orbiting;
-            OnImpact();
-            transform.position = startingPosition;
-            transform.rotation = startingRotation;
-        }
+        transform.position = target.position + radiusVersor * height;        
 
         if (phase == CameraPhase.orbiting)
         {
