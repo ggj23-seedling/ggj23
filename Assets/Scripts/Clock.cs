@@ -8,8 +8,8 @@ public enum Turn
 {
     intro,
     conversation,
-    player,
     extraction,
+    player,
     enemy,
     gameOver,
 }
@@ -44,12 +44,12 @@ public class Clock : Listenable<Clock>
                 t = Turn.conversation;
                 break;
             case Turn.conversation:
-                t = Turn.player;
-                break;
-            case Turn.player:
                 t = Turn.extraction;
                 break;
             case Turn.extraction:
+                t = Turn.player;
+                break;
+            case Turn.player:
                 t = Turn.enemy;
                 break;
             case Turn.enemy:
